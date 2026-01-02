@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>CYD Remote Control - Flash Tool</title>
+    <meta name="description" content="Flash CYD Remote Control firmware to your ESP32 device" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+    <style>
+        body {
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
+            padding: 2rem;
+            margin: 0;
+            line-height: 1.5;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        esp-web-install-button {
+            margin: 2rem 0;
+        }
+
+        .info {
+            background: #e3f2fd;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        .warning {
+            background: #fff3e0;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        .steps {
+            margin: 1.5rem 0;
+        }
+
+        .steps li {
+            margin: 0.5rem 0;
+        }
+
+        ul {
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>CYD Remote Control</h1>
+        <p>Flash the CYD Remote Control firmware to your ESP32 device using your browser.</p>
+
+        <div class="info">
+            <strong>Requirements:</strong>
+            <ul>
+                <li>Chrome, Edge, or Opera browser (must support Web Serial API)</li>
+                <li>ESP32 board (NodeMCU-32S or compatible)</li>
+                <li>USB cable for connection</li>
+            </ul>
+        </div>
+
+        <div class="steps">
+            <strong>Installation Steps:</strong>
+            <ol>
+                <li>Connect your ESP32 board to your computer via USB</li>
+                <li>Click the "Connect" button below</li>
+                <li>Select your ESP32 device from the popup window</li>
+                <li>Click "Install" and wait for the process to complete</li>
+                <li>The device will reboot automatically when done</li>
+            </ol>
+        </div>
+
+        <esp-web-install-button manifest="manifest.json">
+            <button slot="activate" style="
+                padding: 12px 24px;
+                font-size: 16px;
+                background: #2196F3;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: 500;
+            ">
+                Connect and Install Firmware
+            </button>
+        </esp-web-install-button>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> This will erase all existing data on the device.
+        </div>
+
+        <p style="color: #666; font-size: 14px; margin-top: 2rem;">
+            <strong>Current Configuration:</strong><br>
+            WiFi SSID: <code>Piste_001</code><br>
+            UDP Target: <code>192.168.4.1:1234</code><br><br>
+            <em>To change these settings, you'll need to rebuild the firmware with updated values.</em>
+        </p>
+    </div>
+</body>
+
+</html>

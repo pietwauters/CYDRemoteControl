@@ -1,0 +1,9 @@
+SET(SOURCES ui_comp_scrolldots.c
+    ui_comp.c
+    ui_Central_Screen.c
+    ui.c
+    ui_comp_hook.c
+    ui_helpers.c
+    ui_events.c)
+
+add_library(ui ${SOURCES})
