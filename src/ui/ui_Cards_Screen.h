@@ -42,6 +42,9 @@ extern lv_obj_t * ui_Label18;
 extern void ui_event_ButtonPRIO(lv_event_t * e);
 extern lv_obj_t * ui_ButtonPRIO;
 extern lv_obj_t * ui_Label19;
+extern void ui_event_ButtonUndoUW2FTimerReset(lv_event_t * e);
+extern lv_obj_t * ui_ButtonUndoUW2FTimerReset;
+extern lv_obj_t * ui_Label20;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

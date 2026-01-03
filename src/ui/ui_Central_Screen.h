@@ -32,6 +32,7 @@ extern lv_obj_t * ui_Label4;
 extern void ui_event_ButtonStartStop(lv_event_t * e);
 extern lv_obj_t * ui_ButtonStartStop;
 extern lv_obj_t * ui_Label5;
+extern lv_obj_t * ui_LabelPisteID;
 extern void ui_event_ButtonNextPause(lv_event_t * e);
 extern lv_obj_t * ui_ButtonNextPause;
 extern lv_obj_t * ui_Label6;

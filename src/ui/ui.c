@@ -39,6 +39,7 @@ void ui_init(void)
     ui_Basic_Settings_Screen_screen_init();
     ui_No_Connection_Screen_screen_init();
     ui_Cards_Screen_screen_init();
+    ui_SpecificSettingsScreen_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_Central_Screen);
 }
@@ -49,4 +50,5 @@ void ui_destroy(void)
     ui_Basic_Settings_Screen_screen_destroy();
     ui_No_Connection_Screen_screen_destroy();
     ui_Cards_Screen_screen_destroy();
+    ui_SpecificSettingsScreen_screen_destroy();
 }

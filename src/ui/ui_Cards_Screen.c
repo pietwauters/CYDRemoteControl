@@ -25,6 +25,8 @@ lv_obj_t * ui_ButtonUW2F = NULL;
 lv_obj_t * ui_Label18 = NULL;
 lv_obj_t * ui_ButtonPRIO = NULL;
 lv_obj_t * ui_Label19 = NULL;
+lv_obj_t * ui_ButtonUndoUW2FTimerReset = NULL;
+lv_obj_t * ui_Label20 = NULL;
 // event funtions
 void ui_event_ImgButton4(lv_event_t * e)
 {
@@ -131,6 +133,15 @@ void ui_event_ButtonPRIO(lv_event_t * e)
     }
 }
 
+void ui_event_ButtonUndoUW2FTimerReset(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_SHORT_CLICKED) {
+        OnUNDOUW2FTimerResetClicked(e);
+    }
+}
+
 // build funtions
 
 void ui_Cards_Screen_screen_init(void)
@@ -143,22 +154,22 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_set_width(ui_ImgButton4, 40);
     lv_obj_set_height(ui_ImgButton4, 40);
     lv_obj_set_x(ui_ImgButton4, 3);
-    lv_obj_set_y(ui_ImgButton4, 131);
-    lv_obj_set_align(ui_ImgButton4, LV_ALIGN_CENTER);
+    lv_obj_set_y(ui_ImgButton4, 0);
+    lv_obj_set_align(ui_ImgButton4, LV_ALIGN_BOTTOM_LEFT);
 
     ui_Container2 = lv_obj_create(ui_Cards_Screen);
     lv_obj_remove_style_all(ui_Container2);
     lv_obj_set_width(ui_Container2, 100);
     lv_obj_set_height(ui_Container2, 180);
     lv_obj_set_x(ui_Container2, 10);
-    lv_obj_set_y(ui_Container2, 0);
+    lv_obj_set_y(ui_Container2, -5);
     lv_obj_set_flex_flow(ui_Container2, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(ui_Container2, LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
     lv_obj_clear_flag(ui_Container2, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
     ui_ButtonYLeft = lv_btn_create(ui_Container2);
-    lv_obj_set_width(ui_ButtonYLeft, 60);
-    lv_obj_set_height(ui_ButtonYLeft, 45);
+    lv_obj_set_width(ui_ButtonYLeft, 80);
+    lv_obj_set_height(ui_ButtonYLeft, 40);
     lv_obj_set_x(ui_ButtonYLeft, -57);
     lv_obj_set_y(ui_ButtonYLeft, -133);
     lv_obj_set_align(ui_ButtonYLeft, LV_ALIGN_CENTER);
@@ -172,8 +183,8 @@ void ui_Cards_Screen_screen_init(void)
     lv_label_set_text(ui_Label12, "Y");
 
     ui_ButtonRLeft = lv_btn_create(ui_Container2);
-    lv_obj_set_width(ui_ButtonRLeft, 60);
-    lv_obj_set_height(ui_ButtonRLeft, 45);
+    lv_obj_set_width(ui_ButtonRLeft, 80);
+    lv_obj_set_height(ui_ButtonRLeft, 40);
     lv_obj_set_x(ui_ButtonRLeft, -57);
     lv_obj_set_y(ui_ButtonRLeft, -77);
     lv_obj_set_align(ui_ButtonRLeft, LV_ALIGN_CENTER);
@@ -187,8 +198,8 @@ void ui_Cards_Screen_screen_init(void)
     lv_label_set_text(ui_Label13, "R");
 
     ui_ButtonBLeft = lv_btn_create(ui_Container2);
-    lv_obj_set_width(ui_ButtonBLeft, 60);
-    lv_obj_set_height(ui_ButtonBLeft, 45);
+    lv_obj_set_width(ui_ButtonBLeft, 80);
+    lv_obj_set_height(ui_ButtonBLeft, 40);
     lv_obj_set_x(ui_ButtonBLeft, -57);
     lv_obj_set_y(ui_ButtonBLeft, -15);
     lv_obj_set_align(ui_ButtonBLeft, LV_ALIGN_CENTER);
@@ -206,15 +217,15 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_set_width(ui_Container3, 100);
     lv_obj_set_height(ui_Container3, 180);
     lv_obj_set_x(ui_Container3, 10);
-    lv_obj_set_y(ui_Container3, 0);
+    lv_obj_set_y(ui_Container3, -5);
     lv_obj_set_align(ui_Container3, LV_ALIGN_TOP_RIGHT);
     lv_obj_set_flex_flow(ui_Container3, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(ui_Container3, LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
     lv_obj_clear_flag(ui_Container3, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
     ui_ButtonYRight = lv_btn_create(ui_Container3);
-    lv_obj_set_width(ui_ButtonYRight, 60);
-    lv_obj_set_height(ui_ButtonYRight, 45);
+    lv_obj_set_width(ui_ButtonYRight, 80);
+    lv_obj_set_height(ui_ButtonYRight, 40);
     lv_obj_set_x(ui_ButtonYRight, -57);
     lv_obj_set_y(ui_ButtonYRight, -133);
     lv_obj_set_align(ui_ButtonYRight, LV_ALIGN_CENTER);
@@ -228,8 +239,8 @@ void ui_Cards_Screen_screen_init(void)
     lv_label_set_text(ui_Label15, "Y");
 
     ui_ButtonRRight = lv_btn_create(ui_Container3);
-    lv_obj_set_width(ui_ButtonRRight, 60);
-    lv_obj_set_height(ui_ButtonRRight, 45);
+    lv_obj_set_width(ui_ButtonRRight, 80);
+    lv_obj_set_height(ui_ButtonRRight, 40);
     lv_obj_set_x(ui_ButtonRRight, -57);
     lv_obj_set_y(ui_ButtonRRight, -77);
     lv_obj_set_align(ui_ButtonRRight, LV_ALIGN_CENTER);
@@ -243,8 +254,8 @@ void ui_Cards_Screen_screen_init(void)
     lv_label_set_text(ui_Label16, "R");
 
     ui_ButtonBRight = lv_btn_create(ui_Container3);
-    lv_obj_set_width(ui_ButtonBRight, 60);
-    lv_obj_set_height(ui_ButtonBRight, 45);
+    lv_obj_set_width(ui_ButtonBRight, 80);
+    lv_obj_set_height(ui_ButtonBRight, 40);
     lv_obj_set_x(ui_ButtonBRight, -57);
     lv_obj_set_y(ui_ButtonBRight, -15);
     lv_obj_set_align(ui_ButtonBRight, LV_ALIGN_CENTER);
@@ -261,7 +272,7 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_set_width(ui_ButtonUW2F, 100);
     lv_obj_set_height(ui_ButtonUW2F, 35);
     lv_obj_set_x(ui_ButtonUW2F, 0);
-    lv_obj_set_y(ui_ButtonUW2F, 40);
+    lv_obj_set_y(ui_ButtonUW2F, 30);
     lv_obj_set_align(ui_ButtonUW2F, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_ButtonUW2F, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_ButtonUW2F, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
@@ -276,7 +287,7 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_set_width(ui_ButtonPRIO, 100);
     lv_obj_set_height(ui_ButtonPRIO, 35);
     lv_obj_set_x(ui_ButtonPRIO, 0);
-    lv_obj_set_y(ui_ButtonPRIO, 85);
+    lv_obj_set_y(ui_ButtonPRIO, 75);
     lv_obj_set_align(ui_ButtonPRIO, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_ButtonPRIO, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_ButtonPRIO, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
@@ -287,6 +298,21 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_set_align(ui_Label19, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label19, "PRIO");
 
+    ui_ButtonUndoUW2FTimerReset = lv_btn_create(ui_Cards_Screen);
+    lv_obj_set_width(ui_ButtonUndoUW2FTimerReset, 100);
+    lv_obj_set_height(ui_ButtonUndoUW2FTimerReset, 35);
+    lv_obj_set_x(ui_ButtonUndoUW2FTimerReset, 0);
+    lv_obj_set_y(ui_ButtonUndoUW2FTimerReset, 125);
+    lv_obj_set_align(ui_ButtonUndoUW2FTimerReset, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_ButtonUndoUW2FTimerReset, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_clear_flag(ui_ButtonUndoUW2FTimerReset, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+
+    ui_Label20 = lv_label_create(ui_ButtonUndoUW2FTimerReset);
+    lv_obj_set_width(ui_Label20, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label20, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Label20, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label20, "UWF Timer");
+
     lv_obj_add_event_cb(ui_ImgButton4, ui_event_ImgButton4, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonYLeft, ui_event_ButtonYLeft, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonRLeft, ui_event_ButtonRLeft, LV_EVENT_ALL, NULL);
@@ -296,6 +322,7 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_add_event_cb(ui_ButtonBRight, ui_event_ButtonBRight, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonUW2F, ui_event_ButtonUW2F, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonPRIO, ui_event_ButtonPRIO, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_ButtonUndoUW2FTimerReset, ui_event_ButtonUndoUW2FTimerReset, LV_EVENT_ALL, NULL);
 
 }
 
@@ -324,5 +351,7 @@ void ui_Cards_Screen_screen_destroy(void)
     ui_Label18 = NULL;
     ui_ButtonPRIO = NULL;
     ui_Label19 = NULL;
+    ui_ButtonUndoUW2FTimerReset = NULL;
+    ui_Label20 = NULL;
 
 }

@@ -4,6 +4,7 @@ SET(SOURCES ui_comp_scrolldots.c
     ui_Basic_Settings_Screen.c
     ui_No_Connection_Screen.c
     ui_Cards_Screen.c
+    ui_SpecificSettingsScreen.c
     ui.c
     ui_comp_hook.c
     ui_helpers.c

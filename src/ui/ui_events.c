@@ -177,3 +177,21 @@ void OnRedCardRightLongPressed(lv_event_t * e)
 	// Your code here
 	sendUDP32(0x0600ff16);
 }
+
+void OnUNDOUW2FTimerResetClicked(lv_event_t * e)
+{
+	// Your code here
+}
+
+extern int PisteNr;
+void OnPisteIDChanged(lv_event_t * e)
+{
+	// Your code here
+	
+	const char* pisteValue = lv_textarea_get_text(ui_TextAreaPisteNr);
+	PisteNr = atoi(pisteValue);
+	lv_label_set_text_fmt(ui_LabelPisteID, "Piste %s", pisteValue);
+	printf("The user changed the piste to %s (int: %d)\n", pisteValue, PisteNr);
+	SetPiste(PisteNr);
+	
+}

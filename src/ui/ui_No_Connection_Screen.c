@@ -9,6 +9,15 @@ lv_obj_t * ui_No_Connection_Screen = NULL;
 lv_obj_t * ui_Spinner1 = NULL;
 lv_obj_t * ui_Label11 = NULL;
 // event funtions
+void ui_event_No_Connection_Screen(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_TOP) {
+        lv_indev_wait_release(lv_indev_get_act());
+        _ui_screen_change(&ui_SpecificSettingsScreen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_SpecificSettingsScreen_screen_init);
+    }
+}
 
 // build funtions
 
@@ -32,6 +41,8 @@ void ui_No_Connection_Screen_screen_init(void)
     lv_obj_set_y(ui_Label11, 39);
     lv_obj_set_align(ui_Label11, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label11, "Waiting for scoring device");
+
+    lv_obj_add_event_cb(ui_No_Connection_Screen, ui_event_No_Connection_Screen, LV_EVENT_ALL, NULL);
 
 }
 

@@ -37,6 +37,8 @@ void OnUW2FClicked(lv_event_t * e);
 void OnUW2FLongPressed(lv_event_t * e);
 void OnPrioClicked(lv_event_t * e);
 void OnPrioLongPressed(lv_event_t * e);
+void OnUNDOUW2FTimerResetClicked(lv_event_t * e);
+void OnPisteIDChanged(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

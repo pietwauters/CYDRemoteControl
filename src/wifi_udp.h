@@ -19,6 +19,8 @@ extern bool wifiConnected;
 // Initialize WiFi connection
 void initWiFi();
 
+
+
 // Check WiFi status and attempt reconnection if needed
 // Returns false if connection is lost, true otherwise
 bool checkWiFiConnection();
@@ -27,6 +29,8 @@ bool checkWiFiConnection();
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+void SetPiste(int PisteNr);
 
 // Send a 32-bit word via UDP
 bool sendUDP32(uint32_t value);

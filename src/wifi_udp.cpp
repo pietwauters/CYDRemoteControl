@@ -1,5 +1,6 @@
 #include "wifi_udp.h"
 #include <AsyncUDP.h>
+#include <Preferences.h>
 #include <WiFi.h>
 
 // WiFi credentials - update these with your access point details
@@ -87,10 +88,28 @@ void initWiFi() {
   WiFi.mode(WIFI_STA);
 
   // Start connection
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  Preferences networkpreferences;
+  networkpreferences.begin("network");
+
+  String storedSSID;
+  storedSSID = networkpreferences.getString("Piste", WIFI_SSID);
+  networkpreferences.end();
+
+  WiFi.begin(storedSSID.c_str(), WIFI_PASSWORD);
 
   Serial.print("WiFi: Connecting to ");
-  Serial.println(WIFI_SSID);
+  Serial.println(storedSSID.c_str());
+}
+
+void SetPiste(int PisteNr) {
+  char strPiste[32];
+  sprintf(strPiste, "Piste_%.3d", PisteNr);
+  Preferences networkpreferences;
+  networkpreferences.begin("network", false);
+  networkpreferences.putString("Piste", strPiste);
+  networkpreferences.end();
+  WiFi.disconnect();
+  WiFi.begin(strPiste, WIFI_PASSWORD);
 }
 
 // Check WiFi status and attempt reconnection if needed

@@ -32,6 +32,7 @@ extern "C" {
 #include "ui_Basic_Settings_Screen.h"
 #include "ui_No_Connection_Screen.h"
 #include "ui_Cards_Screen.h"
+#include "ui_SpecificSettingsScreen.h"
 
 ///////////////////// VARIABLES ////////////////////
 

@@ -110,6 +110,7 @@ static void touchscreen_read(lv_indev_drv_t *drv, lv_indev_data_t *data) {
     data->state = LV_INDEV_STATE_RELEASED;
   }
 }
+int PisteNr = 1;
 
 void setup() {
   // Initialize serial communication

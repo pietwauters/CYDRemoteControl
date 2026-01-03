@@ -18,6 +18,7 @@ lv_obj_t * ui_ButtonRightScoreMin = NULL;
 lv_obj_t * ui_Label4 = NULL;
 lv_obj_t * ui_ButtonStartStop = NULL;
 lv_obj_t * ui_Label5 = NULL;
+lv_obj_t * ui_LabelPisteID = NULL;
 lv_obj_t * ui_ButtonNextPause = NULL;
 lv_obj_t * ui_Label6 = NULL;
 lv_obj_t * ui_ButtonReset = NULL;
@@ -205,8 +206,18 @@ void ui_Central_Screen_screen_init(void)
     ui_Label5 = lv_label_create(ui_ButtonStartStop);
     lv_obj_set_width(ui_Label5, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label5, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label5, 0);
+    lv_obj_set_y(ui_Label5, -15);
     lv_obj_set_align(ui_Label5, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label5, "Start \nStop");
+    lv_label_set_text(ui_Label5, "Start  / Stop");
+
+    ui_LabelPisteID = lv_label_create(ui_ButtonStartStop);
+    lv_obj_set_width(ui_LabelPisteID, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelPisteID, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelPisteID, 0);
+    lv_obj_set_y(ui_LabelPisteID, 15);
+    lv_obj_set_align(ui_LabelPisteID, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_LabelPisteID, "Piste 999");
 
     ui_ButtonNextPause = lv_btn_create(ui_Central_Screen);
     lv_obj_set_width(ui_ButtonNextPause, LV_SIZE_CONTENT);   /// 100
@@ -284,6 +295,7 @@ void ui_Central_Screen_screen_destroy(void)
     ui_Label4 = NULL;
     ui_ButtonStartStop = NULL;
     ui_Label5 = NULL;
+    ui_LabelPisteID = NULL;
     ui_ButtonNextPause = NULL;
     ui_Label6 = NULL;
     ui_ButtonReset = NULL;
