@@ -1,4 +1,5 @@
 #include "wifi_udp.h"
+#include "esp_wifi.h"
 #include <AsyncUDP.h>
 #include <Preferences.h>
 #include <WiFi.h>
@@ -94,11 +95,21 @@ void initWiFi() {
   String storedSSID;
   storedSSID = networkpreferences.getString("Piste", WIFI_SSID);
   networkpreferences.end();
+// I will be using a static IP address outside the DHCP range of an ESP AP
+  IPAddress local_IP(192, 168, 4, 200);
+  IPAddress gateway(192, 168, 4, 1);
+  IPAddress subnet(255, 255, 255, 0);
+
+  WiFi.config(local_IP, gateway, subnet);
 
   WiFi.begin(storedSSID.c_str(), WIFI_PASSWORD);
 
   Serial.print("WiFi: Connecting to ");
   Serial.println(storedSSID.c_str());
+  // This puts the radio into sleep unless sending UDP packets
+  WiFi.setSleep(true);
+  esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
+
 }
 
 void SetPiste(int PisteNr) {

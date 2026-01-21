@@ -11,10 +11,10 @@
 
 // include the installed the "XPT2046_Touchscreen" library by Paul Stoffregen to
 // use the Touchscreen - https://github.com/PaulStoffregen/XPT2046_Touchscreen
-#include <XPT2046_Touchscreen.h>
-
+#include "backlight.h"
 #include "ui/ui.h"
 #include "wifi_udp.h"
+#include <XPT2046_Touchscreen.h>
 
 // Create TFT and touchscreen instances
 TFT_eSPI tft = TFT_eSPI();
@@ -73,6 +73,9 @@ static void touchscreen_read(lv_indev_drv_t *drv, lv_indev_data_t *data) {
   if (touchscreen.tirqTouched() && touchscreen.touched()) {
     TS_Point p = touchscreen.getPoint();
 
+    // Wake up backlight on any touch detection
+    resetBacklightTimer();
+
     int screen_w = tft.width();
     int screen_h = tft.height();
 
@@ -112,7 +115,18 @@ static void touchscreen_read(lv_indev_drv_t *drv, lv_indev_data_t *data) {
 }
 int PisteNr = 1;
 
+#define RGB_PIN_RED 4
+#define RGB_PIN_GREEN 16
+#define RGB_PIN_BLUE 17
+
 void setup() {
+  pinMode(RGB_PIN_GREEN, OUTPUT);
+  digitalWrite(RGB_PIN_GREEN, HIGH); // stop random latch
+  pinMode(RGB_PIN_RED, OUTPUT);
+  digitalWrite(RGB_PIN_RED, HIGH); // stop random latch
+  pinMode(RGB_PIN_BLUE, OUTPUT);
+  digitalWrite(RGB_PIN_BLUE, HIGH); // stop random latch
+
   // Initialize serial communication
   Serial.begin(115200);
 
@@ -148,6 +162,9 @@ void setup() {
   indev_drv.read_cb = touchscreen_read;
   lv_indev_drv_register(&indev_drv);
 
+  // Add global touch event handler on top layer to catch all touches
+  lv_obj_add_event_cb(lv_layer_top(), onTouchEvent, LV_EVENT_PRESSED, NULL);
+
   // Initialize the SquareLine UI (ui_init() from generated files)
   ui_init();
 
@@ -165,9 +182,13 @@ void setup() {
                       ui_No_Connection_Screen_screen_init);
     wasConnected = false;
   }
+
+  initBacklight();
 }
 
 void loop() {
+  // Update backlight timer (check for inactivity timeout)
+  updateBacklightTimer();
 
   // Handle screen switching based on WiFi state
   if (wifiConnected && !wasConnected) {
