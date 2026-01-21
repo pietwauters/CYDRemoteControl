@@ -1,3 +1,4 @@
+#include "Preferences.h"
 #include <Arduino.h>
 #include <SPI.h>
 
@@ -167,6 +168,24 @@ void setup() {
 
   // Initialize the SquareLine UI (ui_init() from generated files)
   ui_init();
+  Preferences networkpreferences;
+  networkpreferences.begin("network");
+  String storedSSID;
+  storedSSID = networkpreferences.getString("Piste", WIFI_SSID);
+  networkpreferences.end();
+
+  // Extract 3-digit number after "Piste_"
+  int pisteIndex = storedSSID.indexOf("Piste_");
+  if (pisteIndex != -1) {
+    // Extract 3 digits after "Piste_"
+    String pisteNumber = storedSSID.substring(pisteIndex + 6, pisteIndex + 9);
+    lv_textarea_set_text(ui_TextAreaPisteNr, pisteNumber.c_str());
+    lv_label_set_text_fmt(ui_LabelPisteID, "Piste %s", pisteNumber.c_str());
+    PisteNr = pisteNumber.toInt();
+  } else {
+    lv_label_set_text_fmt(ui_LabelPisteID, storedSSID.c_str());
+    lv_textarea_set_text(ui_TextAreaPisteNr, "001");
+  }
 
   // Initialize WiFi connection
   initWiFi();

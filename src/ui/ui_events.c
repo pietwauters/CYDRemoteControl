@@ -5,6 +5,8 @@
 
 #include <stdio.h>
 #include "ui.h"
+#include <string.h>
+#include <ctype.h>
 
 extern bool sendUDP32(uint32_t value);
 
@@ -194,4 +196,145 @@ void OnPisteIDChanged(lv_event_t * e)
 	printf("The user changed the piste to %s (int: %d)\n", pisteValue, PisteNr);
 	SetPiste(PisteNr);
 	
+}
+
+void OnNextClicked(lv_event_t * e)
+{
+	// Your code here
+	sendUDP32(0x06000101);
+}
+
+void OnPrevClicked(lv_event_t * e)
+{
+	// Your code here
+	sendUDP32(0x06000102);
+}
+
+void OnBeginLongPressed(lv_event_t * e)
+{
+	// Your code here
+	sendUDP32(0x06000103);
+}
+
+void OnEndLongPressed(lv_event_t * e)
+{
+	// Your code here
+	sendUDP32(0x06000104);
+}
+
+void OnSwapClicked(lv_event_t * e)
+{
+	// Your code here
+	sendUDP32(0x0600001a);
+}
+
+void OnResLClicked(lv_event_t * e)
+{
+	// Your code here
+	sendUDP32(0x0600001);
+}
+
+void OnResRClicked(lv_event_t * e)
+{
+	// Your code here
+	sendUDP32(0x0600001c);
+}
+
+void OnLeftScorePlusLongPressed(lv_event_t * e)
+{
+	// Your code here
+	sendUDP32(0x06000006);
+}
+
+void OnRightScorePlusLongPressed(lv_event_t * e)
+{
+	// Your code here
+	sendUDP32(0x06000008);
+}
+
+
+
+
+// Restore : and . if deleted
+void OnTimerTextChanged(lv_event_t * e)
+{
+	static bool formatting = false;
+	
+	// Prevent recursive calls
+	if (formatting) return;
+	
+	lv_obj_t * textarea = lv_event_get_target(e);
+	const char * text = lv_textarea_get_text(textarea);
+	int len = strlen(text);
+	
+	// Check if separators are missing
+	bool has_colon = strchr(text, ':') != NULL;
+	bool has_dot = strchr(text, '.') != NULL;
+	
+	if (has_colon && has_dot) return; // Format is fine
+	
+	// Make a copy to work with
+	char fixed[10];
+	strncpy(fixed, text, sizeof(fixed) - 1);
+	fixed[sizeof(fixed) - 1] = '\0';
+	
+	formatting = true;
+	
+	// Restore missing separators at their expected positions
+	// Format: M:SS.HH (positions: 0:1 2 3.4 5 6)
+	if (!has_colon && len >= 1) {
+		// Insert : after position 1
+		lv_textarea_set_cursor_pos(textarea, 1);
+		lv_textarea_add_char(textarea, ':');
+	}
+	
+	// Re-get text after potential colon insertion
+	text = lv_textarea_get_text(textarea);
+	len = strlen(text);
+	
+	if (!has_dot && len >= 4) {
+		// Insert . after position 4
+		lv_textarea_set_cursor_pos(textarea, 4);
+		lv_textarea_add_char(textarea, '.');
+	}
+	
+	// Move cursor to end
+	lv_textarea_set_cursor_pos(textarea, LV_TEXTAREA_CURSOR_LAST);
+	
+	formatting = false;
+}
+
+#define UI_SET_MINUTES 0x06000040
+#define UI_SET_SECONDS 0x06000041
+#define UI_SET_HUNDREDS 0x06000042
+
+void OnNewTimeEntered(lv_event_t * e)
+{
+	// Get the time text from textarea
+	const char* timeText = lv_textarea_get_text(ui_TextAreaTimer);
+	
+	// Parse format M:SS.HH
+	int minutes = 0, seconds = 0, hundredths = 0;
+	
+	// Find positions of separators
+	const char* colon = strchr(timeText, ':');
+	const char* dot = strchr(timeText, '.');
+	
+	if (colon && dot) {
+		// Extract minutes (before :)
+		minutes = atoi(timeText);
+		
+		// Extract seconds (between : and .)
+		seconds = atoi(colon + 1);
+		
+		// Extract hundredths (after .)
+		hundredths = atoi(dot + 1);
+		
+		// Send each value via UDP
+		sendUDP32(UI_SET_MINUTES | (minutes << 8 & 0xFF00));
+		sendUDP32(UI_SET_SECONDS | (seconds << 8 & 0xFF00));
+		sendUDP32(UI_SET_HUNDREDS | (hundredths << 8 & 0xFF00));
+		
+		printf("Time set: %d:%02d.%02d\n", minutes, seconds, hundredths);
+	}
 }

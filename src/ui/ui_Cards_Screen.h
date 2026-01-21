@@ -13,6 +13,7 @@ extern "C" {
 // SCREEN: ui_Cards_Screen
 extern void ui_Cards_Screen_screen_init(void);
 extern void ui_Cards_Screen_screen_destroy(void);
+extern void ui_event_Cards_Screen(lv_event_t * e);
 extern lv_obj_t * ui_Cards_Screen;
 extern void ui_event_ImgButton4(lv_event_t * e);
 extern lv_obj_t * ui_ImgButton4;

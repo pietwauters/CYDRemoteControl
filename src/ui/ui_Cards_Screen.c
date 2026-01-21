@@ -28,6 +28,16 @@ lv_obj_t * ui_Label19 = NULL;
 lv_obj_t * ui_ButtonUndoUW2FTimerReset = NULL;
 lv_obj_t * ui_Label20 = NULL;
 // event funtions
+void ui_event_Cards_Screen(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT) {
+        lv_indev_wait_release(lv_indev_get_act());
+        _ui_screen_change(&ui_Central_Screen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_Central_Screen_screen_init);
+    }
+}
+
 void ui_event_ImgButton4(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -323,6 +333,7 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_add_event_cb(ui_ButtonUW2F, ui_event_ButtonUW2F, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonPRIO, ui_event_ButtonPRIO, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonUndoUW2FTimerReset, ui_event_ButtonUndoUW2FTimerReset, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Cards_Screen, ui_event_Cards_Screen, LV_EVENT_ALL, NULL);
 
 }
 

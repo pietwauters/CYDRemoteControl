@@ -33,6 +33,8 @@ extern "C" {
 #include "ui_No_Connection_Screen.h"
 #include "ui_Cards_Screen.h"
 #include "ui_SpecificSettingsScreen.h"
+#include "ui_Cyrano_Screen.h"
+#include "ui_Set_Time_Screen.h"
 
 ///////////////////// VARIABLES ////////////////////
 
@@ -42,6 +44,7 @@ extern lv_obj_t * ui____initial_actions0;
 // IMAGES AND IMAGE SETS
 LV_IMG_DECLARE(ui_img_icons_icon_next_png);    // assets/icons_icon_next.png
 LV_IMG_DECLARE(ui_img_icons_icon_prev_png);    // assets/icons_icon_prev.png
+LV_IMG_DECLARE(ui_img_icons_icon_settings_png);    // assets/icons_icon_settings.png
 LV_IMG_DECLARE(ui_img_icons_icon_home_png);    // assets/icons_icon_home.png
 
 // UI INIT

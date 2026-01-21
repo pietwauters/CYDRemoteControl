@@ -19,16 +19,10 @@ extern lv_obj_t * ui_ContainerMainTopLeft;
 extern void ui_event_ButtonLeftScorePlus(lv_event_t * e);
 extern lv_obj_t * ui_ButtonLeftScorePlus;
 extern lv_obj_t * ui_Label1;
-extern void ui_event_ButtonLeftScoreMin(lv_event_t * e);
-extern lv_obj_t * ui_ButtonLeftScoreMin;
-extern lv_obj_t * ui_Label2;
 extern lv_obj_t * ui_ContaineMainTopRight;
 extern void ui_event_ButtonRightScorePlus(lv_event_t * e);
 extern lv_obj_t * ui_ButtonRightScorePlus;
 extern lv_obj_t * ui_Label3;
-extern void ui_event_ButtonRightScoreMin(lv_event_t * e);
-extern lv_obj_t * ui_ButtonRightScoreMin;
-extern lv_obj_t * ui_Label4;
 extern void ui_event_ButtonStartStop(lv_event_t * e);
 extern lv_obj_t * ui_ButtonStartStop;
 extern lv_obj_t * ui_Label5;
@@ -41,7 +35,10 @@ extern lv_obj_t * ui_ButtonReset;
 extern lv_obj_t * ui_Label7;
 extern void ui_event_ImgButton2(lv_event_t * e);
 extern lv_obj_t * ui_ImgButton2;
+extern void ui_event_ImgButton3(lv_event_t * e);
 extern lv_obj_t * ui_ImgButton3;
+extern void ui_event_ImgButton7(lv_event_t * e);
+extern lv_obj_t * ui_ImgButton7;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

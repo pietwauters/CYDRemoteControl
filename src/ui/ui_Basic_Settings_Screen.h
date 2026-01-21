@@ -28,6 +28,8 @@ extern void ui_event_ImgButton1(lv_event_t * e);
 extern lv_obj_t * ui_ImgButton1;
 extern void ui_event_ImgButton6(lv_event_t * e);
 extern lv_obj_t * ui_ImgButton6;
+extern void ui_event_ImgButton10(lv_event_t * e);
+extern lv_obj_t * ui_ImgButton10;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

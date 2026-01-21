@@ -52,8 +52,8 @@ void ui_SpecificSettingsScreen_screen_init(void)
     lv_imgbtn_set_src(ui_ImgButton5, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_icons_icon_home_png, NULL);
     lv_obj_set_width(ui_ImgButton5, 40);
     lv_obj_set_height(ui_ImgButton5, 40);
-    lv_obj_set_x(ui_ImgButton5, 10);
-    lv_obj_set_y(ui_ImgButton5, -10);
+    lv_obj_set_x(ui_ImgButton5, 2);
+    lv_obj_set_y(ui_ImgButton5, -3);
     lv_obj_set_align(ui_ImgButton5, LV_ALIGN_BOTTOM_LEFT);
 
     ui_Keyboard2 = lv_keyboard_create(ui_SpecificSettingsScreen);

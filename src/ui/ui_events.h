@@ -10,10 +10,10 @@
 extern "C" {
 #endif
 
+void OnLeftScorePlusLongPressed(lv_event_t * e);
 void OnLeftScorePlusClicked(lv_event_t * e);
-void OnScoreLeftMinClicked(lv_event_t * e);
+void OnRightScorePlusLongPressed(lv_event_t * e);
 void OnRightScorePlusClicked(lv_event_t * e);
-void OnRightScoreMinClicked(lv_event_t * e);
 void OnStartStopClicked(lv_event_t * e);
 void OnNextPauseLongpressed(lv_event_t * e);
 void OnResetClicked(lv_event_t * e);
@@ -39,6 +39,14 @@ void OnPrioClicked(lv_event_t * e);
 void OnPrioLongPressed(lv_event_t * e);
 void OnUNDOUW2FTimerResetClicked(lv_event_t * e);
 void OnPisteIDChanged(lv_event_t * e);
+void OnNextClicked(lv_event_t * e);
+void OnPrevClicked(lv_event_t * e);
+void OnBeginLongPressed(lv_event_t * e);
+void OnEndLongPressed(lv_event_t * e);
+void OnSwapClicked(lv_event_t * e);
+void OnResLClicked(lv_event_t * e);
+void OnResRClicked(lv_event_t * e);
+void OnNewTimeEntered(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

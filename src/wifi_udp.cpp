@@ -95,6 +95,7 @@ void initWiFi() {
   String storedSSID;
   storedSSID = networkpreferences.getString("Piste", WIFI_SSID);
   networkpreferences.end();
+  
 // I will be using a static IP address outside the DHCP range of an ESP AP
   IPAddress local_IP(192, 168, 4, 200);
   IPAddress gateway(192, 168, 4, 1);

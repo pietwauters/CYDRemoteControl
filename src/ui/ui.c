@@ -40,6 +40,8 @@ void ui_init(void)
     ui_No_Connection_Screen_screen_init();
     ui_Cards_Screen_screen_init();
     ui_SpecificSettingsScreen_screen_init();
+    ui_Cyrano_Screen_screen_init();
+    ui_Set_Time_Screen_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_Central_Screen);
 }
@@ -51,4 +53,6 @@ void ui_destroy(void)
     ui_No_Connection_Screen_screen_destroy();
     ui_Cards_Screen_screen_destroy();
     ui_SpecificSettingsScreen_screen_destroy();
+    ui_Cyrano_Screen_screen_destroy();
+    ui_Set_Time_Screen_screen_destroy();
 }

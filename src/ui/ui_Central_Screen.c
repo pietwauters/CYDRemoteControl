@@ -9,13 +9,9 @@ lv_obj_t * ui_Central_Screen = NULL;
 lv_obj_t * ui_ContainerMainTopLeft = NULL;
 lv_obj_t * ui_ButtonLeftScorePlus = NULL;
 lv_obj_t * ui_Label1 = NULL;
-lv_obj_t * ui_ButtonLeftScoreMin = NULL;
-lv_obj_t * ui_Label2 = NULL;
 lv_obj_t * ui_ContaineMainTopRight = NULL;
 lv_obj_t * ui_ButtonRightScorePlus = NULL;
 lv_obj_t * ui_Label3 = NULL;
-lv_obj_t * ui_ButtonRightScoreMin = NULL;
-lv_obj_t * ui_Label4 = NULL;
 lv_obj_t * ui_ButtonStartStop = NULL;
 lv_obj_t * ui_Label5 = NULL;
 lv_obj_t * ui_LabelPisteID = NULL;
@@ -25,6 +21,7 @@ lv_obj_t * ui_ButtonReset = NULL;
 lv_obj_t * ui_Label7 = NULL;
 lv_obj_t * ui_ImgButton2 = NULL;
 lv_obj_t * ui_ImgButton3 = NULL;
+lv_obj_t * ui_ImgButton7 = NULL;
 // event funtions
 void ui_event_Central_Screen(lv_event_t * e)
 {
@@ -44,17 +41,11 @@ void ui_event_ButtonLeftScorePlus(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
-    if(event_code == LV_EVENT_CLICKED) {
-        OnLeftScorePlusClicked(e);
+    if(event_code == LV_EVENT_LONG_PRESSED) {
+        OnLeftScorePlusLongPressed(e);
     }
-}
-
-void ui_event_ButtonLeftScoreMin(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if(event_code == LV_EVENT_CLICKED) {
-        OnScoreLeftMinClicked(e);
+    if(event_code == LV_EVENT_SHORT_CLICKED) {
+        OnLeftScorePlusClicked(e);
     }
 }
 
@@ -62,18 +53,11 @@ void ui_event_ButtonRightScorePlus(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
-    if(event_code == LV_EVENT_CLICKED) {
-        OnRightScorePlusClicked(e);
+    if(event_code == LV_EVENT_LONG_PRESSED) {
+        OnRightScorePlusLongPressed(e);
     }
-}
-
-void ui_event_ButtonRightScoreMin(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if(event_code == LV_EVENT_CLICKED) {
-        OnRightScoreMinClicked(e);
-        (e);
+    if(event_code == LV_EVENT_SHORT_CLICKED) {
+        OnRightScorePlusClicked(e);
     }
 }
 
@@ -116,6 +100,24 @@ void ui_event_ImgButton2(lv_event_t * e)
     }
 }
 
+void ui_event_ImgButton3(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_Cyrano_Screen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_Cyrano_Screen_screen_init);
+    }
+}
+
+void ui_event_ImgButton7(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_Basic_Settings_Screen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_Basic_Settings_Screen_screen_init);
+    }
+}
+
 // build funtions
 
 void ui_Central_Screen_screen_init(void)
@@ -144,21 +146,6 @@ void ui_Central_Screen_screen_init(void)
     lv_obj_set_align(ui_Label1, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label1, "+");
 
-    ui_ButtonLeftScoreMin = lv_btn_create(ui_ContainerMainTopLeft);
-    lv_obj_set_width(ui_ButtonLeftScoreMin, 60);
-    lv_obj_set_height(ui_ButtonLeftScoreMin, 40);
-    lv_obj_set_x(ui_ButtonLeftScoreMin, 0);
-    lv_obj_set_y(ui_ButtonLeftScoreMin, 20);
-    lv_obj_set_align(ui_ButtonLeftScoreMin, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_ButtonLeftScoreMin, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_clear_flag(ui_ButtonLeftScoreMin, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-
-    ui_Label2 = lv_label_create(ui_ButtonLeftScoreMin);
-    lv_obj_set_width(ui_Label2, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Label2, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Label2, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label2, "-");
-
     ui_ContaineMainTopRight = lv_obj_create(ui_Central_Screen);
     lv_obj_remove_style_all(ui_ContaineMainTopRight);
     lv_obj_set_width(ui_ContaineMainTopRight, 80);
@@ -181,24 +168,11 @@ void ui_Central_Screen_screen_init(void)
     lv_obj_set_align(ui_Label3, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label3, "+");
 
-    ui_ButtonRightScoreMin = lv_btn_create(ui_ContaineMainTopRight);
-    lv_obj_set_width(ui_ButtonRightScoreMin, 60);
-    lv_obj_set_height(ui_ButtonRightScoreMin, 40);
-    lv_obj_set_x(ui_ButtonRightScoreMin, 0);
-    lv_obj_set_y(ui_ButtonRightScoreMin, 20);
-    lv_obj_set_align(ui_ButtonRightScoreMin, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_ButtonRightScoreMin, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_clear_flag(ui_ButtonRightScoreMin, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-
-    ui_Label4 = lv_label_create(ui_ButtonRightScoreMin);
-    lv_obj_set_width(ui_Label4, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Label4, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Label4, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label4, "-");
-
     ui_ButtonStartStop = lv_btn_create(ui_Central_Screen);
     lv_obj_set_width(ui_ButtonStartStop, 150);
     lv_obj_set_height(ui_ButtonStartStop, 80);
+    lv_obj_set_x(ui_ButtonStartStop, 0);
+    lv_obj_set_y(ui_ButtonStartStop, -47);
     lv_obj_set_align(ui_ButtonStartStop, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_ButtonStartStop, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_ButtonStartStop, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
@@ -222,8 +196,8 @@ void ui_Central_Screen_screen_init(void)
     ui_ButtonNextPause = lv_btn_create(ui_Central_Screen);
     lv_obj_set_width(ui_ButtonNextPause, LV_SIZE_CONTENT);   /// 100
     lv_obj_set_height(ui_ButtonNextPause, LV_SIZE_CONTENT);    /// 50
-    lv_obj_set_x(ui_ButtonNextPause, 0);
-    lv_obj_set_y(ui_ButtonNextPause, 80);
+    lv_obj_set_x(ui_ButtonNextPause, 5);
+    lv_obj_set_y(ui_ButtonNextPause, 36);
     lv_obj_set_align(ui_ButtonNextPause, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_ButtonNextPause, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_ButtonNextPause, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
@@ -237,8 +211,8 @@ void ui_Central_Screen_screen_init(void)
     ui_ButtonReset = lv_btn_create(ui_Central_Screen);
     lv_obj_set_width(ui_ButtonReset, 100);
     lv_obj_set_height(ui_ButtonReset, LV_SIZE_CONTENT);    /// 50
-    lv_obj_set_x(ui_ButtonReset, -2);
-    lv_obj_set_y(ui_ButtonReset, 124);
+    lv_obj_set_x(ui_ButtonReset, 0);
+    lv_obj_set_y(ui_ButtonReset, 87);
     lv_obj_set_align(ui_ButtonReset, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_ButtonReset, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_ButtonReset, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
@@ -265,14 +239,22 @@ void ui_Central_Screen_screen_init(void)
     lv_obj_set_y(ui_ImgButton3, 131);
     lv_obj_set_align(ui_ImgButton3, LV_ALIGN_CENTER);
 
+    ui_ImgButton7 = lv_imgbtn_create(ui_Central_Screen);
+    lv_imgbtn_set_src(ui_ImgButton7, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_icons_icon_settings_png, NULL);
+    lv_obj_set_width(ui_ImgButton7, 40);
+    lv_obj_set_height(ui_ImgButton7, 40);
+    lv_obj_set_x(ui_ImgButton7, 0);
+    lv_obj_set_y(ui_ImgButton7, 137);
+    lv_obj_set_align(ui_ImgButton7, LV_ALIGN_CENTER);
+
     lv_obj_add_event_cb(ui_ButtonLeftScorePlus, ui_event_ButtonLeftScorePlus, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_ButtonLeftScoreMin, ui_event_ButtonLeftScoreMin, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonRightScorePlus, ui_event_ButtonRightScorePlus, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_ButtonRightScoreMin, ui_event_ButtonRightScoreMin, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonStartStop, ui_event_ButtonStartStop, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonNextPause, ui_event_ButtonNextPause, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonReset, ui_event_ButtonReset, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ImgButton2, ui_event_ImgButton2, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_ImgButton3, ui_event_ImgButton3, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_ImgButton7, ui_event_ImgButton7, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Central_Screen, ui_event_Central_Screen, LV_EVENT_ALL, NULL);
 
 }
@@ -286,13 +268,9 @@ void ui_Central_Screen_screen_destroy(void)
     ui_ContainerMainTopLeft = NULL;
     ui_ButtonLeftScorePlus = NULL;
     ui_Label1 = NULL;
-    ui_ButtonLeftScoreMin = NULL;
-    ui_Label2 = NULL;
     ui_ContaineMainTopRight = NULL;
     ui_ButtonRightScorePlus = NULL;
     ui_Label3 = NULL;
-    ui_ButtonRightScoreMin = NULL;
-    ui_Label4 = NULL;
     ui_ButtonStartStop = NULL;
     ui_Label5 = NULL;
     ui_LabelPisteID = NULL;
@@ -302,5 +280,6 @@ void ui_Central_Screen_screen_destroy(void)
     ui_Label7 = NULL;
     ui_ImgButton2 = NULL;
     ui_ImgButton3 = NULL;
+    ui_ImgButton7 = NULL;
 
 }
