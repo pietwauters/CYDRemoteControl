@@ -10,15 +10,6 @@ lv_obj_t * ui_Keyboard1 = NULL;
 lv_obj_t * ui_TextAreaTimer = NULL;
 lv_obj_t * ui_ImgButton12 = NULL;
 // event funtions
-void ui_event_Keyboard1(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if(event_code == LV_EVENT_READY) {
-        OnNewTimeEntered(e);
-    }
-}
-
 void ui_event_ImgButton12(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -44,13 +35,13 @@ void ui_Set_Time_Screen_screen_init(void)
     lv_obj_set_align(ui_Keyboard1, LV_ALIGN_CENTER);
 
     ui_TextAreaTimer = lv_textarea_create(ui_Set_Time_Screen);
-    lv_obj_set_width(ui_TextAreaTimer, 144);
+    lv_obj_set_width(ui_TextAreaTimer, 188);
     lv_obj_set_height(ui_TextAreaTimer, LV_SIZE_CONTENT);    /// 70
-    lv_obj_set_x(ui_TextAreaTimer, 0);
+    lv_obj_set_x(ui_TextAreaTimer, 13);
     lv_obj_set_y(ui_TextAreaTimer, -125);
     lv_obj_set_align(ui_TextAreaTimer, LV_ALIGN_CENTER);
-    lv_textarea_set_max_length(ui_TextAreaTimer, 7);
-    lv_textarea_set_text(ui_TextAreaTimer, "2:33.30");
+    lv_textarea_set_max_length(ui_TextAreaTimer, 8);
+    lv_textarea_set_text(ui_TextAreaTimer, "02:33.30");
     lv_textarea_set_placeholder_text(ui_TextAreaTimer, "Placeholder...");
     lv_textarea_set_one_line(ui_TextAreaTimer, true);
     lv_obj_set_style_text_font(ui_TextAreaTimer, &lv_font_montserrat_36, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -62,8 +53,6 @@ void ui_Set_Time_Screen_screen_init(void)
     lv_obj_set_align(ui_ImgButton12, LV_ALIGN_BOTTOM_MID);
     lv_obj_add_flag(ui_ImgButton12, LV_OBJ_FLAG_IGNORE_LAYOUT);     /// Flags
 
-    lv_keyboard_set_textarea(ui_Keyboard1, ui_TextAreaTimer);
-    lv_obj_add_event_cb(ui_Keyboard1, ui_event_Keyboard1, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ImgButton12, ui_event_ImgButton12, LV_EVENT_ALL, NULL);
 
 }

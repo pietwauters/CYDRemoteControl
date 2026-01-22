@@ -7,6 +7,7 @@ SET(SOURCES ui_comp_scrolldots.c
     ui_SpecificSettingsScreen.c
     ui_Cyrano_Screen.c
     ui_Set_Time_Screen.c
+    ui_Power_Settings_Screen.c
     ui.c
     ui_comp_hook.c
     ui_helpers.c

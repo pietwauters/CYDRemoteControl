@@ -35,6 +35,7 @@ extern "C" {
 #include "ui_SpecificSettingsScreen.h"
 #include "ui_Cyrano_Screen.h"
 #include "ui_Set_Time_Screen.h"
+#include "ui_Power_Settings_Screen.h"
 
 ///////////////////// VARIABLES ////////////////////
 

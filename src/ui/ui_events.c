@@ -7,6 +7,7 @@
 #include "ui.h"
 #include <string.h>
 #include <ctype.h>
+#include "../backlight.h"
 
 extern bool sendUDP32(uint32_t value);
 
@@ -336,5 +337,60 @@ void OnNewTimeEntered(lv_event_t * e)
 		sendUDP32(UI_SET_HUNDREDS | (hundredths << 8 & 0xFF00));
 		
 		printf("Time set: %d:%02d.%02d\n", minutes, seconds, hundredths);
+	}
+}
+
+void OnDefaultBrightnessFocussed(lv_event_t * e)
+{
+	// Associate keyboard with Default Brightness textarea
+	lv_keyboard_set_textarea(ui_Keyboard4, ui_TextAreaDefaultBrightness);
+	printf("Default brightness is now actively edited\n");
+}
+
+void OnIdleBrightnessFocussed(lv_event_t * e)
+{
+	// Associate keyboard with Idle Brightness textarea
+	lv_keyboard_set_textarea(ui_Keyboard4, ui_TextAreaIdleBrightness);
+	printf("Idle brightness is now actively edited\n");
+}
+
+void OnTimeToIdleFocussed(lv_event_t * e)
+{
+	// Associate keyboard with Time to Idle textarea
+	lv_keyboard_set_textarea(ui_Keyboard4, ui_TextAreaTimeToIdle);
+	printf("Time to idle is now actively edited\n");
+}
+
+void OnPowerSettingKeyboardEnter(lv_event_t * e)
+{
+	// Get the keyboard object from the event
+	lv_obj_t * keyboard = lv_event_get_target(e);
+	
+	// Get the textarea that the keyboard is associated with
+	lv_obj_t * activeTextarea = lv_keyboard_get_textarea(keyboard);
+	
+	if (activeTextarea == NULL) {
+		printf("No textarea associated with keyboard\n");
+		return;
+	}
+	
+	// Get the text from the active textarea
+	const char* valueText = lv_textarea_get_text(activeTextarea);
+	int value = atoi(valueText);
+	
+	// Determine which textarea is active and call the appropriate setter
+	if (activeTextarea == ui_TextAreaDefaultBrightness) {
+		setDefaultBrightness((uint8_t)value);
+		printf("Default brightness set to %d\n", value);
+	} else if (activeTextarea == ui_TextAreaIdleBrightness) {
+		setIdleBrightness((uint8_t)value);
+		printf("Idle brightness set to %d\n", value);
+	} else if (activeTextarea == ui_TextAreaTimeToIdle) {
+		// Convert seconds to milliseconds
+		uint32_t timeoutMs = (uint32_t)value * 1000;
+		setBacklightTimeout(timeoutMs);
+		printf("Backlight timeout set to %d seconds\n", value);
+	} else {
+		printf("Unknown textarea\n");
 	}
 }

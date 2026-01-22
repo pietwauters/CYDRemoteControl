@@ -10,6 +10,7 @@ lv_obj_t * ui_TextAreaPisteNr = NULL;
 lv_obj_t * ui_ImgButton5 = NULL;
 lv_obj_t * ui_Keyboard2 = NULL;
 lv_obj_t * ui_Label21 = NULL;
+lv_obj_t * ui_ImgButton13 = NULL;
 // event funtions
 void ui_event_ImgButton5(lv_event_t * e)
 {
@@ -26,6 +27,15 @@ void ui_event_Keyboard2(lv_event_t * e)
 
     if(event_code == LV_EVENT_READY) {
         OnPisteIDChanged(e);
+    }
+}
+
+void ui_event_ImgButton13(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_Power_Settings_Screen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_Power_Settings_Screen_screen_init);
     }
 }
 
@@ -72,9 +82,18 @@ void ui_SpecificSettingsScreen_screen_init(void)
     lv_obj_set_align(ui_Label21, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label21, "Piste number");
 
+    ui_ImgButton13 = lv_imgbtn_create(ui_SpecificSettingsScreen);
+    lv_imgbtn_set_src(ui_ImgButton13, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_icons_icon_next_png, NULL);
+    lv_obj_set_width(ui_ImgButton13, 40);
+    lv_obj_set_height(ui_ImgButton13, 40);
+    lv_obj_set_x(ui_ImgButton13, -3);
+    lv_obj_set_y(ui_ImgButton13, -2);
+    lv_obj_set_align(ui_ImgButton13, LV_ALIGN_BOTTOM_RIGHT);
+
     lv_obj_add_event_cb(ui_ImgButton5, ui_event_ImgButton5, LV_EVENT_ALL, NULL);
     lv_keyboard_set_textarea(ui_Keyboard2, ui_TextAreaPisteNr);
     lv_obj_add_event_cb(ui_Keyboard2, ui_event_Keyboard2, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_ImgButton13, ui_event_ImgButton13, LV_EVENT_ALL, NULL);
 
 }
 
@@ -88,5 +107,6 @@ void ui_SpecificSettingsScreen_screen_destroy(void)
     ui_ImgButton5 = NULL;
     ui_Keyboard2 = NULL;
     ui_Label21 = NULL;
+    ui_ImgButton13 = NULL;
 
 }

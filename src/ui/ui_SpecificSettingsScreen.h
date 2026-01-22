@@ -20,6 +20,8 @@ extern lv_obj_t * ui_ImgButton5;
 extern void ui_event_Keyboard2(lv_event_t * e);
 extern lv_obj_t * ui_Keyboard2;
 extern lv_obj_t * ui_Label21;
+extern void ui_event_ImgButton13(lv_event_t * e);
+extern lv_obj_t * ui_ImgButton13;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

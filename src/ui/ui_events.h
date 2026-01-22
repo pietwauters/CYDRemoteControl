@@ -46,7 +46,10 @@ void OnEndLongPressed(lv_event_t * e);
 void OnSwapClicked(lv_event_t * e);
 void OnResLClicked(lv_event_t * e);
 void OnResRClicked(lv_event_t * e);
-void OnNewTimeEntered(lv_event_t * e);
+void OnPowerSettingKeyboardEnter(lv_event_t * e);
+void OnDefaultBrightnessFocussed(lv_event_t * e);
+void OnIdleBrightnessFocussed(lv_event_t * e);
+void OnTimeToIdleFocussed(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/
