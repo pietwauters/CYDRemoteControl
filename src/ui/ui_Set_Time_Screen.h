@@ -14,7 +14,9 @@ extern "C" {
 extern void ui_Set_Time_Screen_screen_init(void);
 extern void ui_Set_Time_Screen_screen_destroy(void);
 extern lv_obj_t * ui_Set_Time_Screen;
+extern void ui_event_Keyboard1(lv_event_t * e);
 extern lv_obj_t * ui_Keyboard1;
+extern void ui_event_TextAreaTimer(lv_event_t * e);
 extern lv_obj_t * ui_TextAreaTimer;
 extern void ui_event_ImgButton12(lv_event_t * e);
 extern lv_obj_t * ui_ImgButton12;

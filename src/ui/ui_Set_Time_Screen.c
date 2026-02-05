@@ -10,6 +10,24 @@ lv_obj_t * ui_Keyboard1 = NULL;
 lv_obj_t * ui_TextAreaTimer = NULL;
 lv_obj_t * ui_ImgButton12 = NULL;
 // event funtions
+void ui_event_Keyboard1(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_READY) {
+        OnNewTimeEntered(e);
+    }
+}
+
+void ui_event_TextAreaTimer(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        OnTimerTextChanged(e);
+    }
+}
+
 void ui_event_ImgButton12(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -53,6 +71,9 @@ void ui_Set_Time_Screen_screen_init(void)
     lv_obj_set_align(ui_ImgButton12, LV_ALIGN_BOTTOM_MID);
     lv_obj_add_flag(ui_ImgButton12, LV_OBJ_FLAG_IGNORE_LAYOUT);     /// Flags
 
+    lv_keyboard_set_textarea(ui_Keyboard1, ui_TextAreaTimer);
+    lv_obj_add_event_cb(ui_Keyboard1, ui_event_Keyboard1, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_TextAreaTimer, ui_event_TextAreaTimer, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ImgButton12, ui_event_ImgButton12, LV_EVENT_ALL, NULL);
 
 }
