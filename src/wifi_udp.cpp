@@ -85,24 +85,28 @@ void initWiFi() {
   // Register event handler for async monitoring
   WiFi.onEvent(WiFiEvent);
 
-  // Set WiFi mode to station
-  WiFi.mode(WIFI_STA);
+  // Set WiFi mode to both station and access point (AP+STA)
+  WiFi.mode(WIFI_AP_STA);
 
-  // Start connection
+  // Configure and start SoftAP with fixed SSID/password
+  // Use a different subnet for the SoftAP to avoid conflicting with the
+  // station network (prevents 192.168.4.1 target IP colliding with local AP)
+  IPAddress apIP(192, 168, 5, 1);
+  IPAddress apGateway(192, 168, 5, 1);
+  IPAddress apSubnet(255, 255, 255, 0);
+  WiFi.softAPConfig(apIP, apGateway, apSubnet);
+  WiFi.softAP("RemoteControl", "01041967");
+
+  // Start station connection
   Preferences networkpreferences;
   networkpreferences.begin("network");
 
   String storedSSID;
   storedSSID = networkpreferences.getString("Piste", WIFI_SSID);
   networkpreferences.end();
-  
-// I will be using a static IP address outside the DHCP range of an ESP AP
-  IPAddress local_IP(192, 168, 4, 200);
-  IPAddress gateway(192, 168, 4, 1);
-  IPAddress subnet(255, 255, 255, 0);
 
-  WiFi.config(local_IP, gateway, subnet);
-
+  // Use DHCP for station by default (avoid forcing a static IP here)
+  Serial.println("WiFi: Using DHCP for station interface");
   WiFi.begin(storedSSID.c_str(), WIFI_PASSWORD);
 
   Serial.print("WiFi: Connecting to ");
@@ -110,7 +114,6 @@ void initWiFi() {
   // This puts the radio into sleep unless sending UDP packets
   WiFi.setSleep(true);
   esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
-
 }
 
 void SetPiste(int PisteNr) {

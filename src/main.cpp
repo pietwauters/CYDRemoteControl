@@ -1,3 +1,4 @@
+#include "ESP32Button.h"
 #include "Preferences.h"
 #include <Arduino.h>
 #include <SPI.h>
@@ -15,10 +16,16 @@
 #include "backlight.h"
 #include "ui/ui.h"
 #include "wifi_udp.h"
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#include <ElegantOTA.h>
 #include <XPT2046_Touchscreen.h>
 
 // Create TFT and touchscreen instances
 TFT_eSPI tft = TFT_eSPI();
+
+// Async web server for ElegantOTA
+AsyncWebServer otaServer(80);
 
 // XPT2046 touch pins (your existing settings)
 #define XPT2046_IRQ 36
@@ -119,7 +126,7 @@ int PisteNr = 1;
 #define RGB_PIN_RED 4
 #define RGB_PIN_GREEN 16
 #define RGB_PIN_BLUE 17
-
+ESP32Button *button;
 void setup() {
   pinMode(RGB_PIN_GREEN, OUTPUT);
   digitalWrite(RGB_PIN_GREEN, HIGH); // stop random latch
@@ -127,7 +134,8 @@ void setup() {
   digitalWrite(RGB_PIN_RED, HIGH); // stop random latch
   pinMode(RGB_PIN_BLUE, OUTPUT);
   digitalWrite(RGB_PIN_BLUE, HIGH); // stop random latch
-
+  button = ESP32Button::getInstance(27, true, 40);
+  button->begin();
   // Initialize serial communication
   Serial.begin(115200);
 
@@ -190,6 +198,11 @@ void setup() {
   // Initialize WiFi connection
   initWiFi();
 
+  // Start ElegantOTA (Async) - provides a web UI for OTA updates
+  ElegantOTA.begin(&otaServer); // Start ElegantOTA
+  otaServer.begin();
+  Serial.println("ElegantOTA: HTTP OTA available (open /update on device IP)");
+
   // Load appropriate screen based on WiFi state
   if (wifiConnected) {
     _ui_screen_change(&ui_Central_Screen, LV_SCR_LOAD_ANIM_NONE, 0, 0,
@@ -208,7 +221,12 @@ void setup() {
 void loop() {
   // Update backlight timer (check for inactivity timeout)
   updateBacklightTimer();
-
+  button->doUpdate();
+  if (button->stateHasChanged()) {
+    if (button->isPressed()) {
+      OnStartStopClicked(NULL);
+    }
+  }
   // Handle screen switching based on WiFi state
   if (wifiConnected && !wasConnected) {
     // WiFi reconnected - restore last active screen (or Central if none)
