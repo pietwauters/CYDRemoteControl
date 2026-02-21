@@ -1,9 +1,9 @@
 #ifndef ESP32_BUTTON_H
 #define ESP32_BUTTON_H
 
+#include "SubjectObserverTemplate.h"
 #include <Arduino.h>
 #include <map>
-#include "SubjectObserverTemplate.h"
 
 /**
  * @class ESP32Button
@@ -28,7 +28,7 @@ public:
    * @brief Initializes the button with appropriate pull-up or pull-down
    * configuration.
    */
-  void begin();
+  virtual void begin();
 
   /**
    * @brief Gets the current state of the button.
@@ -62,7 +62,7 @@ public:
    * debouncing. It sets the stateChangedFlag when a state change is detected
    * and retains it until stateChanged() is called to check and reset the flag.
    */
-  void doUpdate();
+  virtual void doUpdate();
 
   /**
    * @brief Sets a new debounce time for the button.
@@ -70,20 +70,50 @@ public:
    */
   void setDebounceTime(uint16_t timeMs);
 
+  /**
+   * @brief Sets the duration a button must be held to trigger a long press.
+   * @param[in] timeMs Duration in milliseconds (default: 500 ms).
+   */
+  void setLongPressTime(uint16_t timeMs);
+
+  /**
+   * @brief Returns the current long-press threshold in milliseconds.
+   * @return Long-press duration in milliseconds.
+   */
+  uint16_t getLongPressTime() const;
+
+  /**
+   * @brief Checks if a long press has been detected since the last call and
+   *        resets the flag.
+   *
+   * The flag is set once when the button has been continuously held for at
+   * least the configured long-press duration. It is not re-fired until the
+   * button is released and pressed again.
+   *
+   * @return True if a long press was detected, false otherwise.
+   */
+  bool isLongPress();
+
   void StateChanged(uint32_t eventtype) { notify(eventtype); }
 
-private:
+protected:
   ESP32Button(uint8_t pin, bool activeLow, uint16_t debounceTimeMs);
-  static std::map<uint8_t, ESP32Button *> instances;
 
-  uint8_t pin;               ///< GPIO pin number.
-  bool activeLow;            ///< Indicates if the button is active-low.
+  uint8_t pin;    ///< GPIO pin number.
+  bool activeLow; ///< Indicates if the button is active-low.
+
+private:
+  static std::map<uint8_t, ESP32Button *> instances;
   uint16_t debounceTime;     ///< Debounce time in milliseconds.
+  uint16_t longPressTime;    ///< Duration threshold for a long press [ms].
   bool state;                ///< Current button state.
   bool lastState;            ///< Previous button state.
   bool stateChangedFlag;     ///< Flag to indicate state change, retained until
                              ///< checked.
+  bool longPressFlag;        ///< Set once when long-press threshold is reached;
+                             ///< consumed by isLongPress().
   uint32_t lastDebounceTime; ///< Last debounce timestamp.
+  uint32_t pressStartMs;     ///< millis() when the button was last pressed.
 };
 
 #endif // ESP32_BUTTON_H
