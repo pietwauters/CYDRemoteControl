@@ -1,11 +1,16 @@
-#include "ESP32Button.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
+#include "ESP32SleepButton.h"
 #include "Preferences.h"
+#include "fpa_protocol.h"
 #include <Arduino.h>
 #include <SPI.h>
 
 // include the installed LVGL- Light and Versatile Graphics Library -
 // https://github.com/lvgl/lvgl
 #include <lvgl.h>
+LV_FONT_DECLARE(Montserrat90);
 
 // include the installed "TFT_eSPI" library by Bodmer to interface with the TFT
 // Display - https://github.com/Bodmer/TFT_eSPI
@@ -121,21 +126,48 @@ static void touchscreen_read(lv_indev_drv_t *drv, lv_indev_data_t *data) {
     data->state = LV_INDEV_STATE_RELEASED;
   }
 }
+
+void display_task(void *pvParameters) {
+  // Register THIS task as the display task
+  FPA::registerDisplayTask(xTaskGetCurrentTaskHandle());
+
+  while (true) {
+    // Wait for state change notification
+    ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+
+    FPA::GlobalState local;
+
+    FPA::lockState();
+    local = FPA::getState();
+    FPA::unlockState();
+
+    // render(local);
+    if (lastActiveScreen == ui_Central_Screen) {
+      lv_label_set_text(ui_Label1, local.score.scoreLeft);
+      lv_label_set_text(ui_Label3, local.score.scoreRight);
+    }
+  }
+}
 int PisteNr = 1;
 
-#define RGB_PIN_RED 4
+#define RGB_PIN_RED 22
 #define RGB_PIN_GREEN 16
 #define RGB_PIN_BLUE 17
-ESP32Button *button;
+ESP32SleepButton *button;
 void setup() {
+  FPA::init();
   pinMode(RGB_PIN_GREEN, OUTPUT);
   digitalWrite(RGB_PIN_GREEN, HIGH); // stop random latch
   pinMode(RGB_PIN_RED, OUTPUT);
   digitalWrite(RGB_PIN_RED, HIGH); // stop random latch
   pinMode(RGB_PIN_BLUE, OUTPUT);
   digitalWrite(RGB_PIN_BLUE, HIGH); // stop random latch
-  button = ESP32Button::getInstance(27, true, 40);
+  pinMode(19, OUTPUT);
+  digitalWrite(19, LOW);
+  button = ESP32SleepButton::getInstance(27, true, 40, 60000 * 3);
+  button->holdLowDuringSleep(GPIO_NUM_19);
   button->begin();
+  button->setLongPressTime(4000);
   // Initialize serial communication
   Serial.begin(115200);
 
@@ -150,7 +182,8 @@ void setup() {
   // Init touchscreen
   touchscreenSPI.begin(XPT2046_CLK, XPT2046_MISO, XPT2046_MOSI, XPT2046_CS);
   touchscreen.begin(touchscreenSPI);
-  // Keep touchscreen.setRotation(0) so we get raw values and map them ourselves
+  // Keep touchscreen.setRotation(0) so we get raw values and map them
+  // ourselves
   touchscreen.setRotation(0);
 
   // Initialize LVGL draw buffer (v8 API)
@@ -216,17 +249,39 @@ void setup() {
   }
 
   initBacklight();
+  xTaskCreatePinnedToCore(display_task, "display", 4096, nullptr, 1, nullptr,
+                          1);
 }
 
 void loop() {
   // Update backlight timer (check for inactivity timeout)
   updateBacklightTimer();
   button->doUpdate();
+  if (button->stateHasChanged() && button->isPressed() &&
+      !button->isSleepPending()) {
+    // short press (released before long-press fired)
+    OnStartStopClicked(NULL);
+    if (lastActiveScreen != ui_Central_Screen) {
+      _ui_screen_change(&ui_Central_Screen, LV_SCR_LOAD_ANIM_NONE, 0, 0,
+                        ui_Central_Screen_screen_init);
+      lastActiveScreen = ui_Central_Screen;
+    }
+  }
+
+  if (button->isLongPress() && !button->isSleepPending()) {
+    // held for >= 4000 ms
+    OnStartStopClicked(
+        NULL); // invert the start/or stop of the timer from short click
+    setBrightness(0);
+
+    button->forceSleep();
+  }
+  /*
   if (button->stateHasChanged()) {
     if (button->isPressed()) {
       OnStartStopClicked(NULL);
     }
-  }
+  }*/
   // Handle screen switching based on WiFi state
   if (wifiConnected && !wasConnected) {
     // WiFi reconnected - restore last active screen (or Central if none)

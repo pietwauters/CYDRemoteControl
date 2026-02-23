@@ -19,24 +19,23 @@ extern bool wifiConnected;
 // Initialize WiFi connection
 void initWiFi();
 
-
-
 // Check WiFi status and attempt reconnection if needed
 // Returns false if connection is lost, true otherwise
 bool checkWiFiConnection();
-
+void SetPiste(int PisteNr);
 // C linkage for functions called from C files (ui_events.c)
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-void SetPiste(int PisteNr);
 
 // Send a 32-bit word via UDP
 bool sendUDP32(uint32_t value);
 
 // Send multiple 32-bit words via UDP
 bool sendUDP32Array(uint32_t *values, size_t count);
+
+void startUDP();
+void stopUDP();
 
 #ifdef __cplusplus
 }

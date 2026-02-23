@@ -1,5 +1,6 @@
 #include "wifi_udp.h"
 #include "esp_wifi.h"
+#include "fpa_protocol.h"
 #include <AsyncUDP.h>
 #include <Preferences.h>
 #include <WiFi.h>
@@ -45,8 +46,10 @@ void WiFiEvent(WiFiEvent_t event) {
                   currentMillis, wifiConnected, lastWiFiStateChange);
     wifiConnected = true;
     lastWiFiStateChange = currentMillis;
+    startUDP();
     break;
   case ARDUINO_EVENT_WIFI_STA_DISCONNECTED:
+    stopUDP();
     Serial.printf("[%lu] WiFi Event: Disconnected, wifiConnected=%d, "
                   "timeSinceChange=%lu\n",
                   currentMillis, wifiConnected,
@@ -226,5 +229,35 @@ bool sendUDP32Array(uint32_t *values, size_t count) {
     Serial.printf("UDP: Failed to send packet (sent %d of %d bytes)\n", sent,
                   packetSize);
     return false;
+  }
+}
+
+bool udpListening = false;
+void startUDP() {
+  if (udpListening)
+    return;
+
+  if (udp.listen(50112)) {
+    Serial.println("UDP listening on port 50112");
+
+    udp.onPacket([](AsyncUDPPacket packet) {
+      const uint8_t *data = packet.data();
+      size_t len = packet.length();
+
+      if (len <= FPA::MAX_PACKET_SIZE) {
+        FPA::parsePacket(data, len);
+      }
+    });
+
+    udpListening = true;
+  } else {
+    Serial.println("UDP listen failed");
+  }
+}
+void stopUDP() {
+  if (udpListening) {
+    udp.close();
+    udpListening = false;
+    Serial.println("UDP stopped");
   }
 }
