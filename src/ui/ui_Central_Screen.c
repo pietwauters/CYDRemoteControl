@@ -22,6 +22,7 @@ lv_obj_t * ui_ImgButton2 = NULL;
 lv_obj_t * ui_ImgButton3 = NULL;
 lv_obj_t * ui_ImgButton7 = NULL;
 lv_obj_t * ui_LabelPisteID = NULL;
+lv_obj_t * ui_LabelBatLevel = NULL;
 // event funtions
 void ui_event_Central_Screen(lv_event_t * e)
 {
@@ -34,6 +35,9 @@ void ui_event_Central_Screen(lv_event_t * e)
     if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_TOP) {
         lv_indev_wait_release(lv_indev_get_act());
         _ui_screen_change(&ui_Basic_Settings_Screen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_Basic_Settings_Screen_screen_init);
+    }
+    if(event_code == LV_EVENT_SCREEN_LOAD_START) {
+        OnCentralScreenLoading(e);
     }
 }
 
@@ -139,12 +143,15 @@ void ui_Central_Screen_screen_init(void)
     lv_obj_set_align(ui_ButtonLeftScorePlus, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_ButtonLeftScorePlus, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_ButtonLeftScorePlus, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_ButtonLeftScorePlus, lv_color_hex(0xDC0D0D), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_ButtonLeftScorePlus, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label1 = lv_label_create(ui_ButtonLeftScorePlus);
     lv_obj_set_width(ui_Label1, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label1, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label1, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label1, "+");
+    lv_obj_set_style_text_font(ui_Label1, &lv_font_montserrat_36, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ContaineMainTopRight = lv_obj_create(ui_Central_Screen);
     lv_obj_remove_style_all(ui_ContaineMainTopRight);
@@ -161,12 +168,15 @@ void ui_Central_Screen_screen_init(void)
     lv_obj_set_align(ui_ButtonRightScorePlus, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_ButtonRightScorePlus, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_ButtonRightScorePlus, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_ButtonRightScorePlus, lv_color_hex(0x1A9315), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_ButtonRightScorePlus, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Label3 = lv_label_create(ui_ButtonRightScorePlus);
     lv_obj_set_width(ui_Label3, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label3, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label3, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label3, "+");
+    lv_obj_set_style_text_font(ui_Label3, &lv_font_montserrat_36, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ButtonStartStop = lv_btn_create(ui_Central_Screen);
     lv_obj_set_width(ui_ButtonStartStop, 150);
@@ -244,9 +254,16 @@ void ui_Central_Screen_screen_init(void)
     lv_obj_set_width(ui_LabelPisteID, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_LabelPisteID, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_LabelPisteID, 0);
-    lv_obj_set_y(ui_LabelPisteID, -10);
+    lv_obj_set_y(ui_LabelPisteID, -24);
     lv_obj_set_align(ui_LabelPisteID, LV_ALIGN_CENTER);
     lv_label_set_text(ui_LabelPisteID, "Piste 999");
+
+    ui_LabelBatLevel = lv_label_create(ui_Central_Screen);
+    lv_obj_set_width(ui_LabelBatLevel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelBatLevel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelBatLevel, -2);
+    lv_obj_set_y(ui_LabelBatLevel, -2);
+    lv_obj_set_align(ui_LabelBatLevel, LV_ALIGN_CENTER);
 
     lv_obj_add_event_cb(ui_ButtonLeftScorePlus, ui_event_ButtonLeftScorePlus, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonRightScorePlus, ui_event_ButtonRightScorePlus, LV_EVENT_ALL, NULL);
@@ -282,5 +299,6 @@ void ui_Central_Screen_screen_destroy(void)
     ui_ImgButton3 = NULL;
     ui_ImgButton7 = NULL;
     ui_LabelPisteID = NULL;
+    ui_LabelBatLevel = NULL;
 
 }

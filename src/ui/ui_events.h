@@ -10,6 +10,7 @@
 extern "C" {
 #endif
 
+void OnCentralScreenLoading(lv_event_t * e);
 void OnLeftScorePlusLongPressed(lv_event_t * e);
 void OnLeftScorePlusClicked(lv_event_t * e);
 void OnRightScorePlusLongPressed(lv_event_t * e);
@@ -39,6 +40,7 @@ void OnPrioClicked(lv_event_t * e);
 void OnPrioLongPressed(lv_event_t * e);
 void OnUNDOUW2FTimerResetClicked(lv_event_t * e);
 void OnPisteIDChanged(lv_event_t * e);
+void OnLoadingCyranoScreen(lv_event_t * e);
 void OnNextClicked(lv_event_t * e);
 void OnPrevClicked(lv_event_t * e);
 void OnBeginLongPressed(lv_event_t * e);
@@ -46,6 +48,7 @@ void OnEndLongPressed(lv_event_t * e);
 void OnSwapClicked(lv_event_t * e);
 void OnResLClicked(lv_event_t * e);
 void OnResRClicked(lv_event_t * e);
+void OnTimeScreenLoading(lv_event_t * e);
 void OnNewTimeEntered(lv_event_t * e);
 void OnTimerTextChanged(lv_event_t * e);
 void OnPowerSettingKeyboardEnter(lv_event_t * e);

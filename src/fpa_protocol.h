@@ -10,7 +10,7 @@
 #define FPA_MSG_TIME 1
 #define FPA_MSG_SCORE 1
 #define FPA_MSG_STATUS 0
-#define FPA_MSG_NAMES 0
+#define FPA_MSG_NAMES 1
 #define FPA_MSG_COMPETITION 0
 #define FPA_MSG_U2F 0
 #define FPA_MSG_CONTROL 0

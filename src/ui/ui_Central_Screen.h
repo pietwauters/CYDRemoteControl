@@ -39,6 +39,7 @@ extern lv_obj_t * ui_ImgButton3;
 extern void ui_event_ImgButton7(lv_event_t * e);
 extern lv_obj_t * ui_ImgButton7;
 extern lv_obj_t * ui_LabelPisteID;
+extern lv_obj_t * ui_LabelBatLevel;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

@@ -406,7 +406,6 @@ void unlockState() { xSemaphoreGive(g_mutex); }
 const GlobalState &getState() { return g_state; }
 
 static inline bool isMessageEnabled(const uint8_t *data) {
-  // Message 1 (Lights)
 #if FPA_MSG_LIGHTS
   if (data[1] == DC4)
     return true;
@@ -415,46 +414,57 @@ static inline bool isMessageEnabled(const uint8_t *data) {
 #if (FPA_MSG_TIME || FPA_MSG_SCORE || FPA_MSG_STATUS || FPA_MSG_NAMES ||       \
      FPA_MSG_COMPETITION || FPA_MSG_U2F || FPA_MSG_CONTROL)
 
-  if (data[1] == DC3) {
-    switch (data[2]) {
+  if (data[1] != DC3)
+    return false;
+
+  char t = data[2];
+
+  switch (t) {
+
 #if FPA_MSG_TIME
-    case 'R':
-    case 'N':
-    case 'J':
-    case 'B':
+  case 'R':
+  case 'J':
+  case 'B':
+    return true;
+#endif
+
+#if (FPA_MSG_TIME || FPA_MSG_NAMES)
+  case 'N':
+#if FPA_MSG_TIME
+    if (data[3] == STX)
       return true;
+#endif
+#if FPA_MSG_NAMES
+    if (data[3] == 'L' || data[3] == 'R')
+      return true;
+#endif
+    break;
 #endif
 
 #if FPA_MSG_SCORE
-    case 'D':
-      return true;
+  case 'D':
+    return true;
 #endif
 
 #if FPA_MSG_STATUS
-    case 'I':
-      return true;
-#endif
-
-#if FPA_MSG_NAMES
-    case 'N':
-      return true;
+  case 'I':
+    return true;
 #endif
 
 #if FPA_MSG_COMPETITION
-    case 'M':
-      return true;
+  case 'M':
+    return true;
 #endif
 
 #if FPA_MSG_U2F
-    case 'U':
-      return true;
+  case 'U':
+    return true;
 #endif
 
 #if FPA_MSG_CONTROL
-    case 'F':
-      return true;
+  case 'F':
+    return true;
 #endif
-    }
   }
 #endif
 
@@ -491,13 +501,39 @@ bool parsePacket(const uint8_t *data, size_t len) {
 
 #if FPA_MSG_TIME
     case 'R':
-    case 'N':
     case 'J':
     case 'B':
       if (isSameAsLast(data, len, g_lastMsg2, g_lastMsg2Len))
         return false;
       ok = parseTime(data, len, temp);
       break;
+#endif
+
+#if (FPA_MSG_TIME || FPA_MSG_NAMES)
+    case 'N':
+#if FPA_MSG_TIME
+      if (data[3] == STX) {
+        if (isSameAsLast(data, len, g_lastMsg2, g_lastMsg2Len))
+          return false;
+        ok = parseTime(data, len, temp);
+        break;
+      }
+#endif
+#if FPA_MSG_NAMES
+      if (data[3] == 'L') {
+        if (isSameAsLast(data, len, g_lastMsg5, g_lastMsg5Len))
+          return false;
+        ok = parseNameLeft(data, len, temp);
+        break;
+      }
+      if (data[3] == 'R') {
+        if (isSameAsLast(data, len, g_lastMsg6, g_lastMsg6Len))
+          return false;
+        ok = parseNameRight(data, len, temp);
+        break;
+      }
+#endif
+      return false;
 #endif
 
 #if FPA_MSG_SCORE
@@ -513,20 +549,6 @@ bool parsePacket(const uint8_t *data, size_t len) {
       if (isSameAsLast(data, len, g_lastMsg4, g_lastMsg4Len))
         return false;
       ok = parseStatus(data, len, temp);
-      break;
-#endif
-
-#if FPA_MSG_NAMES
-    case 'N':
-      if (data[3] == 'L') {
-        if (isSameAsLast(data, len, g_lastMsg5, g_lastMsg5Len))
-          return false;
-        ok = parseNameLeft(data, len, temp);
-      } else if (data[3] == 'R') {
-        if (isSameAsLast(data, len, g_lastMsg6, g_lastMsg6Len))
-          return false;
-        ok = parseNameRight(data, len, temp);
-      }
       break;
 #endif
 

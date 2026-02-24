@@ -10,6 +10,15 @@ lv_obj_t * ui_Keyboard1 = NULL;
 lv_obj_t * ui_TextAreaTimer = NULL;
 lv_obj_t * ui_ImgButton12 = NULL;
 // event funtions
+void ui_event_Set_Time_Screen(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_SCREEN_LOAD_START) {
+        OnTimeScreenLoading(e);
+    }
+}
+
 void ui_event_Keyboard1(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -75,6 +84,7 @@ void ui_Set_Time_Screen_screen_init(void)
     lv_obj_add_event_cb(ui_Keyboard1, ui_event_Keyboard1, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_TextAreaTimer, ui_event_TextAreaTimer, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ImgButton12, ui_event_ImgButton12, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Set_Time_Screen, ui_event_Set_Time_Screen, LV_EVENT_ALL, NULL);
 
 }
 

@@ -3,6 +3,7 @@
 
 #include "ESP32SleepButton.h"
 #include "Preferences.h"
+#include "battery_monitor.h"
 #include "fpa_protocol.h"
 #include <Arduino.h>
 #include <SPI.h>
@@ -134,17 +135,19 @@ void display_task(void *pvParameters) {
   while (true) {
     // Wait for state change notification
     ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+    /*
+        FPA::GlobalState local;
 
-    FPA::GlobalState local;
-
-    FPA::lockState();
-    local = FPA::getState();
-    FPA::unlockState();
-
+        FPA::lockState();
+        local = FPA::getState();
+        FPA::unlockState();
+    */
     // render(local);
     if (lastActiveScreen == ui_Central_Screen) {
-      lv_label_set_text(ui_Label1, local.score.scoreLeft);
-      lv_label_set_text(ui_Label3, local.score.scoreRight);
+      OnCentralScreenLoading(NULL);
+    }
+    if (lastActiveScreen == ui_Cyrano_Screen) {
+      OnLoadingCyranoScreen(NULL);
     }
   }
 }
@@ -154,6 +157,7 @@ int PisteNr = 1;
 #define RGB_PIN_GREEN 16
 #define RGB_PIN_BLUE 17
 ESP32SleepButton *button;
+BatteryMonitor battery; // GPIO34, 16 samples, ÷2 divider
 void setup() {
   FPA::init();
   pinMode(RGB_PIN_GREEN, OUTPUT);
@@ -249,6 +253,10 @@ void setup() {
   }
 
   initBacklight();
+  battery.begin(10000); // measure every 10 seconds
+
+  lv_label_set_text(ui_LabelBatLevel, battery.getSymbol());
+
   xTaskCreatePinnedToCore(display_task, "display", 4096, nullptr, 1, nullptr,
                           1);
 }
@@ -323,4 +331,13 @@ void loop() {
   lv_task_handler(); // let the GUI do its work
   lv_tick_inc(5);    // tell LVGL how much time has passed
   delay(5);          // let this time pass
+
+  // Battery monitor - update() returns a symbol only when interval elapsed
+  const char *batSym = battery.update();
+  if (batSym) {
+    /*printf("Battery: %lu mV, %u%%, %s\n", battery.getMillivolts(),
+           battery.getPercent(),
+           battery.isCharging() ? "charging" : "discharging");*/
+    lv_label_set_text(ui_LabelBatLevel, batSym);
+  }
 }

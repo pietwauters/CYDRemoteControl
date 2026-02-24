@@ -369,3 +369,29 @@ void OnTimeScreenLoading(lv_event_t *e) {
   lv_textarea_set_text(ui_TextAreaTimer, local.time.value);
   timerFormatting = false;
 }
+
+static void makeVertical(const char *src, char *dst, size_t dstSize) {
+  size_t out = 0;
+  for (size_t i = 0; src[i] != '\0' && out + 2 < dstSize; i++) {
+    dst[out++] = (char)toupper((unsigned char)src[i]);
+    dst[out++] = '\n';
+  }
+  dst[out] = '\0';
+}
+
+void OnLoadingCyranoScreen(lv_event_t *e) {
+  // Your code here
+  FPA::GlobalState local;
+
+  FPA::lockState();
+  local = FPA::getState();
+  FPA::unlockState();
+
+  char leftVert[sizeof(local.left.name) * 2 + 1];
+  char rightVert[sizeof(local.right.name) * 2 + 1];
+  makeVertical(local.left.name, leftVert, sizeof(leftVert));
+  makeVertical(local.right.name, rightVert, sizeof(rightVert));
+
+  lv_label_set_text(ui_LabelLeftFencerName, leftVert);
+  lv_label_set_text(ui_LabelRightFencerName, rightVert);
+}

@@ -13,6 +13,7 @@ extern "C" {
 // SCREEN: ui_Set_Time_Screen
 extern void ui_Set_Time_Screen_screen_init(void);
 extern void ui_Set_Time_Screen_screen_destroy(void);
+extern void ui_event_Set_Time_Screen(lv_event_t * e);
 extern lv_obj_t * ui_Set_Time_Screen;
 extern void ui_event_Keyboard1(lv_event_t * e);
 extern lv_obj_t * ui_Keyboard1;

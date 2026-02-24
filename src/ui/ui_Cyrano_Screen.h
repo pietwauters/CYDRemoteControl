@@ -13,6 +13,7 @@ extern "C" {
 // SCREEN: ui_Cyrano_Screen
 extern void ui_Cyrano_Screen_screen_init(void);
 extern void ui_Cyrano_Screen_screen_destroy(void);
+extern void ui_event_Cyrano_Screen(lv_event_t * e);
 extern lv_obj_t * ui_Cyrano_Screen;
 extern void ui_event_ImgButton8(lv_event_t * e);
 extern lv_obj_t * ui_ImgButton8;
@@ -39,6 +40,8 @@ extern lv_obj_t * ui_Label27;
 extern void ui_event_ButtonSwapResRight(lv_event_t * e);
 extern lv_obj_t * ui_ButtonSwapResRight;
 extern lv_obj_t * ui_Label28;
+extern lv_obj_t * ui_LabelLeftFencerName;
+extern lv_obj_t * ui_LabelRightFencerName;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus
