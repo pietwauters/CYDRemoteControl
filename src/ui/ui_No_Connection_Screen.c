@@ -18,6 +18,9 @@ void ui_event_No_Connection_Screen(lv_event_t * e)
         lv_indev_wait_release(lv_indev_get_act());
         _ui_screen_change(&ui_SpecificSettingsScreen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_SpecificSettingsScreen_screen_init);
     }
+    if(event_code == LV_EVENT_SCREEN_LOAD_START) {
+        OnConnectionScreenLoading(e);
+    }
 }
 
 // build funtions

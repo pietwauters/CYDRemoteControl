@@ -395,3 +395,10 @@ void OnLoadingCyranoScreen(lv_event_t *e) {
   lv_label_set_text(ui_LabelLeftFencerName, leftVert);
   lv_label_set_text(ui_LabelRightFencerName, rightVert);
 }
+#include "version.h"
+
+void OnConnectionScreenLoading(lv_event_t * e)
+{
+	// Your code here
+  lv_label_set_text(ui_LabelVersion,FIRMWARE_VERSION);
+}
