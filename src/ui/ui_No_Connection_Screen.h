@@ -17,6 +17,7 @@ extern void ui_event_No_Connection_Screen(lv_event_t * e);
 extern lv_obj_t * ui_No_Connection_Screen;
 extern lv_obj_t * ui_Spinner1;
 extern lv_obj_t * ui_Label11;
+extern lv_obj_t * ui_LabelVersion;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

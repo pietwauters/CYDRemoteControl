@@ -8,6 +8,7 @@
 lv_obj_t * ui_No_Connection_Screen = NULL;
 lv_obj_t * ui_Spinner1 = NULL;
 lv_obj_t * ui_Label11 = NULL;
+lv_obj_t * ui_LabelVersion = NULL;
 // event funtions
 void ui_event_No_Connection_Screen(lv_event_t * e)
 {
@@ -42,6 +43,14 @@ void ui_No_Connection_Screen_screen_init(void)
     lv_obj_set_align(ui_Label11, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label11, "Waiting for scoring device");
 
+    ui_LabelVersion = lv_label_create(ui_No_Connection_Screen);
+    lv_obj_set_width(ui_LabelVersion, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelVersion, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelVersion, 5);
+    lv_obj_set_y(ui_LabelVersion, 118);
+    lv_obj_set_align(ui_LabelVersion, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_LabelVersion, "v1.0.0");
+
     lv_obj_add_event_cb(ui_No_Connection_Screen, ui_event_No_Connection_Screen, LV_EVENT_ALL, NULL);
 
 }
@@ -54,5 +63,6 @@ void ui_No_Connection_Screen_screen_destroy(void)
     ui_No_Connection_Screen = NULL;
     ui_Spinner1 = NULL;
     ui_Label11 = NULL;
+    ui_LabelVersion = NULL;
 
 }

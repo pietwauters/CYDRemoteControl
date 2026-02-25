@@ -24,7 +24,6 @@ void OnScoreLeftMinClicked(lv_event_t *e) {
 
 void OnStartStopClicked(lv_event_t *e) {
   // Your code here
-  printf("The user clicked START/STOP\n");
   sendUDP32(0x06000011);
 }
 
@@ -152,6 +151,7 @@ void OnRedCardRightLongPressed(lv_event_t *e) {
 
 void OnUNDOUW2FTimerResetClicked(lv_event_t *e) {
   // Your code here
+  sendUDP32(0x06000019);
 }
 
 extern int PisteNr;
