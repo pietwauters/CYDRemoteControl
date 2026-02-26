@@ -17,6 +17,7 @@ lv_obj_t * ui_TextAreaIdleBrightness = NULL;
 lv_obj_t * ui_Container6 = NULL;
 lv_obj_t * ui_Label31 = NULL;
 lv_obj_t * ui_TextAreaTimeToIdle = NULL;
+lv_obj_t * ui_ImgButton16 = NULL;
 // event funtions
 void ui_event_ImgButton14(lv_event_t * e)
 {
@@ -60,6 +61,15 @@ void ui_event_TextAreaTimeToIdle(lv_event_t * e)
 
     if(event_code == LV_EVENT_FOCUSED) {
         OnTimeToIdleFocussed(e);
+    }
+}
+
+void ui_event_ImgButton16(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_OTA_Screen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_OTA_Screen_screen_init);
     }
 }
 
@@ -169,12 +179,21 @@ void ui_Power_Settings_Screen_screen_init(void)
     lv_textarea_set_placeholder_text(ui_TextAreaTimeToIdle, "Placeholder...");
     lv_textarea_set_one_line(ui_TextAreaTimeToIdle, true);
 
+    ui_ImgButton16 = lv_imgbtn_create(ui_Power_Settings_Screen);
+    lv_imgbtn_set_src(ui_ImgButton16, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_icons_icon_next_png, NULL);
+    lv_obj_set_width(ui_ImgButton16, 40);
+    lv_obj_set_height(ui_ImgButton16, 40);
+    lv_obj_set_x(ui_ImgButton16, -3);
+    lv_obj_set_y(ui_ImgButton16, -2);
+    lv_obj_set_align(ui_ImgButton16, LV_ALIGN_BOTTOM_RIGHT);
+
     lv_obj_add_event_cb(ui_ImgButton14, ui_event_ImgButton14, LV_EVENT_ALL, NULL);
     lv_keyboard_set_textarea(ui_Keyboard4, ui_TextAreaDefaultBrightness);
     lv_obj_add_event_cb(ui_Keyboard4, ui_event_Keyboard4, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_TextAreaDefaultBrightness, ui_event_TextAreaDefaultBrightness, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_TextAreaIdleBrightness, ui_event_TextAreaIdleBrightness, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_TextAreaTimeToIdle, ui_event_TextAreaTimeToIdle, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_ImgButton16, ui_event_ImgButton16, LV_EVENT_ALL, NULL);
 
 }
 
@@ -195,5 +214,6 @@ void ui_Power_Settings_Screen_screen_destroy(void)
     ui_Container6 = NULL;
     ui_Label31 = NULL;
     ui_TextAreaTimeToIdle = NULL;
+    ui_ImgButton16 = NULL;
 
 }

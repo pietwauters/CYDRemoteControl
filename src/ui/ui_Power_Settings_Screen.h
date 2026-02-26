@@ -30,6 +30,8 @@ extern lv_obj_t * ui_Container6;
 extern lv_obj_t * ui_Label31;
 extern void ui_event_TextAreaTimeToIdle(lv_event_t * e);
 extern lv_obj_t * ui_TextAreaTimeToIdle;
+extern void ui_event_ImgButton16(lv_event_t * e);
+extern lv_obj_t * ui_ImgButton16;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

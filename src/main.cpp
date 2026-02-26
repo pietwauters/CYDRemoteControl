@@ -20,6 +20,7 @@ LV_FONT_DECLARE(Montserrat90);
 // include the installed the "XPT2046_Touchscreen" library by Paul Stoffregen to
 // use the Touchscreen - https://github.com/PaulStoffregen/XPT2046_Touchscreen
 #include "backlight.h"
+#include "msgbox.h"
 #include "ui/ui.h"
 #include "wifi_udp.h"
 #include <AsyncTCP.h>
@@ -339,5 +340,7 @@ void loop() {
            battery.getPercent(),
            battery.isCharging() ? "charging" : "discharging");*/
     lv_label_set_text(ui_LabelBatLevel, batSym);
+    if (battery.getPercent() < 15)
+      ui_toast("Battery Low. Charge ASAP");
   }
 }

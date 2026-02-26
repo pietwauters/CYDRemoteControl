@@ -56,6 +56,9 @@ void OnPowerSettingKeyboardEnter(lv_event_t * e);
 void OnDefaultBrightnessFocussed(lv_event_t * e);
 void OnIdleBrightnessFocussed(lv_event_t * e);
 void OnTimeToIdleFocussed(lv_event_t * e);
+void OnOTASoringMachineClicked(lv_event_t * e);
+void OnSettingsSCoringMachineClicked(lv_event_t * e);
+void OTARemoteClicked(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

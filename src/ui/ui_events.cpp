@@ -5,6 +5,7 @@
 
 #include "../backlight.h"
 #include "../wifi_udp.h"
+#include "msgbox.h"
 #include "ui.h"
 #include <ctype.h>
 #include <stdio.h>
@@ -397,8 +398,26 @@ void OnLoadingCyranoScreen(lv_event_t *e) {
 }
 #include "version.h"
 
-void OnConnectionScreenLoading(lv_event_t * e)
-{
-	// Your code here
-  lv_label_set_text(ui_LabelVersion,FIRMWARE_VERSION);
+void OnConnectionScreenLoading(lv_event_t *e) {
+  // Your code here
+  lv_label_set_text(ui_LabelVersion, FIRMWARE_VERSION);
+}
+
+void OTARemoteClicked(lv_event_t *e) {
+  // Your code here
+  ui_toast("In your browser connect to:\nhttp://192.168.5.1/update");
+}
+
+void OnOTASoringMachineClicked(lv_event_t *e) {
+  // Your code here
+  sendUDP32(0x06030000);
+  ui_toast("The scoring device is now waiting for firmware.\nBrowse "
+           "to:http://192.168.4.1/update");
+}
+
+void OnSettingsSCoringMachineClicked(lv_event_t *e) {
+  // Your code here
+  sendUDP32(0x06020000);
+  ui_toast("The scoring device is now waiting for settings.\nBrowse "
+           "to:http://192.168.4.1/");
 }
