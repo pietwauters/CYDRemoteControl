@@ -150,6 +150,9 @@ void display_task(void *pvParameters) {
     if (lastActiveScreen == ui_Cyrano_Screen) {
       OnLoadingCyranoScreen(NULL);
     }
+    if (lastActiveScreen == ui_Cards_Screen) {
+      OnCardsScreenLoading(NULL);
+    }
   }
 }
 int PisteNr = 1;

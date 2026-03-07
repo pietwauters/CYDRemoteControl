@@ -27,6 +27,8 @@ lv_obj_t * ui_ButtonPRIO = NULL;
 lv_obj_t * ui_Label19 = NULL;
 lv_obj_t * ui_ButtonUndoUW2FTimerReset = NULL;
 lv_obj_t * ui_Label20 = NULL;
+lv_obj_t * ui_LabelPrioLeft = NULL;
+lv_obj_t * ui_LabelPrioRight = NULL;
 // event funtions
 void ui_event_Cards_Screen(lv_event_t * e)
 {
@@ -35,6 +37,9 @@ void ui_event_Cards_Screen(lv_event_t * e)
     if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT) {
         lv_indev_wait_release(lv_indev_get_act());
         _ui_screen_change(&ui_Central_Screen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_Central_Screen_screen_init);
+    }
+    if(event_code == LV_EVENT_SCREEN_LOAD_START) {
+        OnCardsScreenLoading(e);
     }
 }
 
@@ -193,7 +198,7 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_set_height(ui_Label12, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label12, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label12, "Y");
-    lv_obj_set_style_text_font(ui_Label12, &lv_font_montserrat_36, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label12, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ButtonRLeft = lv_btn_create(ui_Container2);
     lv_obj_set_width(ui_ButtonRLeft, 80);
@@ -211,7 +216,7 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_set_height(ui_Label13, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label13, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label13, "R");
-    lv_obj_set_style_text_font(ui_Label13, &lv_font_montserrat_36, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label13, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ButtonBLeft = lv_btn_create(ui_Container2);
     lv_obj_set_width(ui_ButtonBLeft, 80);
@@ -229,7 +234,7 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_set_height(ui_Label14, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label14, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label14, "B");
-    lv_obj_set_style_text_font(ui_Label14, &lv_font_montserrat_36, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label14, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Container3 = lv_obj_create(ui_Cards_Screen);
     lv_obj_remove_style_all(ui_Container3);
@@ -258,7 +263,7 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_set_height(ui_Label15, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label15, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label15, "Y");
-    lv_obj_set_style_text_font(ui_Label15, &lv_font_montserrat_36, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label15, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ButtonRRight = lv_btn_create(ui_Container3);
     lv_obj_set_width(ui_ButtonRRight, 80);
@@ -276,7 +281,7 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_set_height(ui_Label16, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label16, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label16, "R");
-    lv_obj_set_style_text_font(ui_Label16, &lv_font_montserrat_36, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label16, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ButtonBRight = lv_btn_create(ui_Container3);
     lv_obj_set_width(ui_ButtonBRight, 80);
@@ -294,7 +299,7 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_set_height(ui_Label17, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label17, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label17, "B");
-    lv_obj_set_style_text_font(ui_Label17, &lv_font_montserrat_36, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label17, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ButtonUW2F = lv_btn_create(ui_Cards_Screen);
     lv_obj_set_width(ui_ButtonUW2F, 100);
@@ -310,6 +315,7 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_set_height(ui_Label18, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label18, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label18, "UW2F");
+    lv_obj_set_style_text_decor(ui_Label18, LV_TEXT_DECOR_NONE, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ButtonPRIO = lv_btn_create(ui_Cards_Screen);
     lv_obj_set_width(ui_ButtonPRIO, 100);
@@ -340,6 +346,30 @@ void ui_Cards_Screen_screen_init(void)
     lv_obj_set_height(ui_Label20, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label20, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label20, "UWF Timer");
+
+    ui_LabelPrioLeft = lv_label_create(ui_Cards_Screen);
+    lv_obj_set_width(ui_LabelPrioLeft, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelPrioLeft, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelPrioLeft, -80);
+    lv_obj_set_y(ui_LabelPrioLeft, 74);
+    lv_obj_set_align(ui_LabelPrioLeft, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_LabelPrioLeft, "P");
+    lv_obj_add_flag(ui_LabelPrioLeft, LV_OBJ_FLAG_HIDDEN);     /// Flags
+    lv_obj_set_style_text_color(ui_LabelPrioLeft, lv_color_hex(0xF1221F), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_LabelPrioLeft, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelPrioLeft, &lv_font_montserrat_36, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_LabelPrioRight = lv_label_create(ui_Cards_Screen);
+    lv_obj_set_width(ui_LabelPrioRight, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelPrioRight, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelPrioRight, 75);
+    lv_obj_set_y(ui_LabelPrioRight, 74);
+    lv_obj_set_align(ui_LabelPrioRight, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_LabelPrioRight, "P");
+    lv_obj_add_flag(ui_LabelPrioRight, LV_OBJ_FLAG_HIDDEN);     /// Flags
+    lv_obj_set_style_text_color(ui_LabelPrioRight, lv_color_hex(0x10A82F), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_LabelPrioRight, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_LabelPrioRight, &lv_font_montserrat_36, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_ImgButton4, ui_event_ImgButton4, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonYLeft, ui_event_ButtonYLeft, LV_EVENT_ALL, NULL);
@@ -382,5 +412,7 @@ void ui_Cards_Screen_screen_destroy(void)
     ui_Label19 = NULL;
     ui_ButtonUndoUW2FTimerReset = NULL;
     ui_Label20 = NULL;
+    ui_LabelPrioLeft = NULL;
+    ui_LabelPrioRight = NULL;
 
 }

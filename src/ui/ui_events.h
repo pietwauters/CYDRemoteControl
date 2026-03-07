@@ -23,6 +23,7 @@ void OnCycleWeaponClicked(lv_event_t * e);
 void OnCycleMatchTypeClicked(lv_event_t * e);
 void OnCycleIntensityClicked(lv_event_t * e);
 void OnConnectionScreenLoading(lv_event_t * e);
+void OnCardsScreenLoading(lv_event_t * e);
 void OnYellowCardLeftClicked(lv_event_t * e);
 void OnYellowCardLeftLongPressed(lv_event_t * e);
 void OnRedCardLeftClicked(lv_event_t * e);

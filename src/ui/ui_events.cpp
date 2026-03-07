@@ -421,3 +421,28 @@ void OnSettingsSCoringMachineClicked(lv_event_t *e) {
   ui_toast("The scoring device is now waiting for settings.\nBrowse "
            "to:http://192.168.4.1/");
 }
+
+void OnCardsScreenLoading(lv_event_t *e) {
+  // Your code here
+  FPA::GlobalState local;
+
+  FPA::lockState();
+  local = FPA::getState();
+  FPA::unlockState();
+  switch (local.score.priority[0]) {
+  case '0':
+    lv_obj_add_flag(ui_LabelPrioLeft, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui_LabelPrioRight, LV_OBJ_FLAG_HIDDEN);
+    break;
+
+  case '1':
+    lv_obj_add_flag(ui_LabelPrioLeft, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(ui_LabelPrioRight, LV_OBJ_FLAG_HIDDEN);
+    break;
+
+  case '2':
+    lv_obj_clear_flag(ui_LabelPrioLeft, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui_LabelPrioRight, LV_OBJ_FLAG_HIDDEN);
+    break;
+  }
+}
