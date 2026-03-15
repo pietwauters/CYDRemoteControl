@@ -84,12 +84,17 @@ static void my_disp_flush(lv_disp_drv_t *drv, const lv_area_t *area,
 // Touch read callback using the calibrated mapping
 static void touchscreen_read(lv_indev_drv_t *drv, lv_indev_data_t *data) {
   (void)drv;
+  extern ESP32SleepButton *button;
   // Only check touch if IRQ is triggered - avoids constant polling
   if (touchscreen.tirqTouched() && touchscreen.touched()) {
     TS_Point p = touchscreen.getPoint();
 
     // Wake up backlight on any touch detection
     resetBacklightTimer();
+    // Also reset the deep-sleep inactivity timer so touch counts as activity
+    if (button) {
+      button->resetSleepTimer();
+    }
 
     int screen_w = tft.width();
     int screen_h = tft.height();
@@ -172,10 +177,12 @@ void setup() {
   digitalWrite(RGB_PIN_BLUE, HIGH); // stop random latch
   pinMode(19, OUTPUT);
   digitalWrite(19, LOW);
-  button = ESP32SleepButton::getInstance(27, true, 40, 60000 * 3);
+  button = ESP32SleepButton::getInstance(27, true, 40, 60000 * 5);
   button->holdLowDuringSleep(GPIO_NUM_19);
   button->begin();
   button->setLongPressTime(4000);
+  button->setSleepTimeout(5 * 180000);
+
   // Initialize serial communication
   Serial.begin(115200);
 
@@ -272,6 +279,10 @@ void loop() {
   if (button->stateHasChanged() && button->isPressed() &&
       !button->isSleepPending()) {
     // short press (released before long-press fired)
+    // Treat button press as user activity: reset backlight timer
+    resetBacklightTimer();
+    // Also reset the deep-sleep inactivity timer so button counts as activity
+    button->resetSleepTimer();
     OnStartStopClicked(NULL);
     if (lastActiveScreen != ui_Central_Screen) {
       _ui_screen_change(&ui_Central_Screen, LV_SCR_LOAD_ANIM_NONE, 0, 0,
@@ -282,8 +293,11 @@ void loop() {
 
   if (button->isLongPress() && !button->isSleepPending()) {
     // held for >= 4000 ms
-    OnStartStopClicked(
-        NULL); // invert the start/or stop of the timer from short click
+    // Treat long press as activity as well
+    resetBacklightTimer();
+    // Also reset the deep-sleep inactivity timer on long press
+    button->resetSleepTimer();
+    OnStartStopClicked(NULL); // invert the start/or stop of the timer
     setBrightness(0);
 
     button->forceSleep();
