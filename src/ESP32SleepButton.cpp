@@ -143,7 +143,8 @@ void ESP32SleepButton::enterDeepSleep() {
   int wakeupLevel = activeLow ? 0 : 1;
 
   esp_sleep_enable_ext0_wakeup(static_cast<gpio_num_t>(pin), wakeupLevel);
-
+  printf("Going into deep sleep .....\n");
+  printf("\n");
   esp_deep_sleep_start();
   // Execution resumes from the beginning after wakeup (full reboot).
 }

@@ -12,7 +12,28 @@ def get_firmware_version():
             stderr=subprocess.DEVNULL
         ).strip().decode("utf-8")
     except Exception:
-        version = "unknown"
+        return "unknown"
+
+    # If `git describe` returns a very short tag (e.g. "v1") but the
+    # repository contains a more specific version tag (e.g. "v1.15"), prefer
+    # the highest semver-like tag. `git describe` reports the nearest tag to
+    # HEAD, not necessarily the highest tag value.
+    try:
+        if version.count('.') < 2:  # heuristic: fewer dots means less-specific
+            tags_out = subprocess.check_output(
+                ["git", "tag", "--list", "--sort=-v:refname"],
+                cwd=env["PROJECT_DIR"],
+                stderr=subprocess.DEVNULL
+            ).strip().decode("utf-8")
+            tags = [t for t in tags_out.splitlines() if t]
+            if tags:
+                latest_tag = tags[0]
+                # Prefer latest_tag when it looks more specific than `version`.
+                if latest_tag != version and latest_tag.count('.') >= version.count('.'):
+                    return latest_tag
+    except Exception:
+        pass
+
     return version
 
 # Generate immediately at script load time so the file exists before compilation

@@ -20,6 +20,7 @@ LV_FONT_DECLARE(Montserrat90);
 // include the installed the "XPT2046_Touchscreen" library by Paul Stoffregen to
 // use the Touchscreen - https://github.com/PaulStoffregen/XPT2046_Touchscreen
 #include "backlight.h"
+#include "haptic.h"
 #include "msgbox.h"
 #include "ui/ui.h"
 #include "wifi_udp.h"
@@ -161,12 +162,18 @@ void display_task(void *pvParameters) {
   }
 }
 int PisteNr = 1;
-
+// #define OLDBOARD 1
+#ifdef OLDBOARD
+#define RGB_PIN_RED 4
+#else
 #define RGB_PIN_RED 22
+#endif
 #define RGB_PIN_GREEN 16
 #define RGB_PIN_BLUE 17
 ESP32SleepButton *button;
+#ifndef OLDBOARD
 BatteryMonitor battery; // GPIO34, 16 samples, ÷2 divider
+#endif
 void setup() {
   FPA::init();
   pinMode(RGB_PIN_GREEN, OUTPUT);
@@ -181,7 +188,7 @@ void setup() {
   button->holdLowDuringSleep(GPIO_NUM_19);
   button->begin();
   button->setLongPressTime(4000);
-  button->setSleepTimeout(5 * 180000);
+  button->setSleepTimeout(5 * 60000);
 
   // Initialize serial communication
   Serial.begin(115200);
@@ -264,10 +271,11 @@ void setup() {
   }
 
   initBacklight();
+  initHaptic();
+#ifndef OLDBOARD
   battery.begin(10000); // measure every 10 seconds
-
   lv_label_set_text(ui_LabelBatLevel, battery.getSymbol());
-
+#endif
   xTaskCreatePinnedToCore(display_task, "display", 4096, nullptr, 1, nullptr,
                           1);
 }
@@ -349,7 +357,7 @@ void loop() {
   lv_task_handler(); // let the GUI do its work
   lv_tick_inc(5);    // tell LVGL how much time has passed
   delay(5);          // let this time pass
-
+#ifndef OLDBOARD
   // Battery monitor - update() returns a symbol only when interval elapsed
   const char *batSym = battery.update();
   if (batSym) {
@@ -360,4 +368,5 @@ void loop() {
     if (battery.getPercent() < 15)
       ui_toast("Battery Low. Charge ASAP");
   }
+#endif
 }

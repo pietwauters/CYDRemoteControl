@@ -4,6 +4,7 @@
 // Project name: RemoteControl
 
 #include "../backlight.h"
+#include "../haptic.h"
 #include "../wifi_udp.h"
 #include "msgbox.h"
 #include "ui.h"
@@ -14,16 +15,19 @@
 extern bool sendUDP32(uint32_t value);
 
 void OnLeftScorePlusClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000005);
 }
 
 void OnScoreLeftMinClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000006);
 }
 
 void OnStartStopClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000011);
 }
@@ -33,124 +37,149 @@ void OnSwipeLeft(lv_event_t *e) {
 }
 
 void OnResetClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
 }
 
 void OnResetLongPressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
   sendUDP32(0x06000003);
 }
 
 void OnRightScorePlusClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000007);
 }
 
 void OnRightScoreMinClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000008);
 }
 
 void OnNextPauseLongpressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
   sendUDP32(0x06000021);
 }
 
 void OnCycleWeaponClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000012);
 }
 
 void OnCycleMatchTypeClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x0600000a);
 }
 
 void OnCycleIntensityClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000030);
 }
 
 void OnYellowCardLeftClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000013);
 }
 
 void OnRedCardLeftClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000015);
 }
 
 void OnBlackCardLeftClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000051);
 }
 
 void OnYellowCardRightClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000014);
 }
 
 void OnRedCardRightClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000016);
 }
 
 void OnBlackCardRightClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000050);
 }
 
 void OnUW2FClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000017);
 }
 
 void OnPrioClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000010);
 }
 
 void OnRedCardLeftLongPressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
   sendUDP32(0x0600ff15);
 }
 
 void OnBlackCardLeftLongPressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
   sendUDP32(0x0600ff51);
 }
 
 void OnYellowCardRightLongPressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
   sendUDP32(0x0600ff14);
 }
 
 void OnBlackCardRightLongPressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
   sendUDP32(0x0600ff50);
 }
 
 void OnUW2FLongPressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
   sendUDP32(0x0600ff17);
 }
 
 void OnPrioLongPressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
 }
 
 void OnYellowCardLeftLongPressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
   sendUDP32(0x0600ff13);
 }
 
 void OnRedCardRightLongPressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
   sendUDP32(0x0600ff16);
 }
 
 void OnUNDOUW2FTimerResetClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000019);
 }
@@ -167,46 +196,55 @@ void OnPisteIDChanged(lv_event_t *e) {
 }
 
 void OnNextClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000101);
 }
 
 void OnPrevClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x06000102);
 }
 
 void OnBeginLongPressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
   sendUDP32(0x06000103);
 }
 
 void OnEndLongPressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
   sendUDP32(0x06000104);
 }
 
 void OnSwapClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x0600001a);
 }
 
 void OnResLClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x0600001);
 }
 
 void OnResRClicked(lv_event_t *e) {
+  vibrateShort();
   // Your code here
   sendUDP32(0x0600001c);
 }
 
 void OnLeftScorePlusLongPressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
   sendUDP32(0x06000006);
 }
 
 void OnRightScorePlusLongPressed(lv_event_t *e) {
+  vibrateLong();
   // Your code here
   sendUDP32(0x06000008);
 }
@@ -267,6 +305,7 @@ void OnTimerTextChanged(lv_event_t *e) {
 #define UI_SET_HUNDREDS 0x06000042
 
 void OnNewTimeEntered(lv_event_t *e) {
+  vibrateShort();
   // Get the time text from textarea
   const char *timeText = lv_textarea_get_text(ui_TextAreaTimer);
 
@@ -315,6 +354,7 @@ void OnTimeToIdleFocussed(lv_event_t *e) {
 }
 
 void OnPowerSettingKeyboardEnter(lv_event_t *e) {
+  vibrateShort();
   // Get the keyboard object from the event
   lv_obj_t *keyboard = lv_event_get_target(e);
 
