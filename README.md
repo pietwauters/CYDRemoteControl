@@ -10,6 +10,9 @@ Part of the [OpenPiste](https://github.com/pietwauters) open source fencing elec
 
 The CYD Remote Control is a dedicated physical remote control for the [OpenPiste ESP32 scoring device](https://github.com/pietwauters/esp32scoringdeviceMqtt). It is built around the **Cheap Yellow Display (CYD)** — an inexpensive ESP32 development board with an integrated 2.8" touchscreen display — combined with a LiPo battery and a single external button. No custom PCB is required.
 
+<img width="250"  alt="34EB5161-B538-4584-BF87-542DCDD02163 (1)" src="https://github.com/user-attachments/assets/adaae321-1f63-4377-80b2-94f1b619eada" />
+
+
 The device connects over **WiFi** and communicates via **FPA over UDP**, one of the protocols used throughout the OpenPiste platform. Because it uses WiFi rather than infrared, it works from any angle and through obstacles — no line-of-sight issues.
 
 A ready-to-print enclosure is available on **[Printables](https://www.printables.com/model/1599802-remote-control-based-on-cheap-yellow-display)**.
