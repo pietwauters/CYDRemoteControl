@@ -37,6 +37,7 @@ extern "C" {
 #include "ui_Set_Time_Screen.h"
 #include "ui_Power_Settings_Screen.h"
 #include "ui_OTA_Screen.h"
+#include "ui_Color_Screen.h"
 
 ///////////////////// VARIABLES ////////////////////
 

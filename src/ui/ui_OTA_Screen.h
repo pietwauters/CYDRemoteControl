@@ -29,6 +29,8 @@ extern void ui_event_ButtonOTARemote(lv_event_t * e);
 extern lv_obj_t * ui_ButtonOTARemote;
 extern lv_obj_t * ui_Label32;
 extern lv_obj_t * ui_Label35;
+extern void ui_event_ImgButton17(lv_event_t * e);
+extern lv_obj_t * ui_ImgButton17;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

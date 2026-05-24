@@ -2,6 +2,11 @@
 
 #include <Arduino.h>
 
+#define MOTOR 1
+#define SPEAKER 2
+
+// #define HAPTIC_TYPE MOTOR
+#define HAPTIC_TYPE SPEAKER
 #define HAPTIC_PIN 18 // GPIO 26 (GPIO 35 is input-only!)
 #define VIBRATION_SHORT_MS 150
 #define VIBRATION_LONG_MS 400

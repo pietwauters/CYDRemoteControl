@@ -44,6 +44,7 @@ void ui_init(void)
     ui_Set_Time_Screen_screen_init();
     ui_Power_Settings_Screen_screen_init();
     ui_OTA_Screen_screen_init();
+    ui_Color_Screen_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_Central_Screen);
 }
@@ -59,4 +60,5 @@ void ui_destroy(void)
     ui_Set_Time_Screen_screen_destroy();
     ui_Power_Settings_Screen_screen_destroy();
     ui_OTA_Screen_screen_destroy();
+    ui_Color_Screen_screen_destroy();
 }

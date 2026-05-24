@@ -17,6 +17,7 @@ lv_obj_t * ui_Panel3 = NULL;
 lv_obj_t * ui_ButtonOTARemote = NULL;
 lv_obj_t * ui_Label32 = NULL;
 lv_obj_t * ui_Label35 = NULL;
+lv_obj_t * ui_ImgButton17 = NULL;
 // event funtions
 void ui_event_ImgButton15(lv_event_t * e)
 {
@@ -51,6 +52,15 @@ void ui_event_ButtonOTARemote(lv_event_t * e)
 
     if(event_code == LV_EVENT_CLICKED) {
         OTARemoteClicked(e);
+    }
+}
+
+void ui_event_ImgButton17(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_Color_Screen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_Color_Screen_screen_init);
     }
 }
 
@@ -148,10 +158,19 @@ void ui_OTA_Screen_screen_init(void)
     lv_obj_set_align(ui_Label35, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label35, "Remote Control");
 
+    ui_ImgButton17 = lv_imgbtn_create(ui_OTA_Screen);
+    lv_imgbtn_set_src(ui_ImgButton17, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_icons_icon_next_png, NULL);
+    lv_obj_set_width(ui_ImgButton17, 40);
+    lv_obj_set_height(ui_ImgButton17, 40);
+    lv_obj_set_x(ui_ImgButton17, -3);
+    lv_obj_set_y(ui_ImgButton17, -2);
+    lv_obj_set_align(ui_ImgButton17, LV_ALIGN_BOTTOM_RIGHT);
+
     lv_obj_add_event_cb(ui_ImgButton15, ui_event_ImgButton15, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonOTAScoringMachine, ui_event_ButtonOTAScoringMachine, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonSettingsScoringMachine, ui_event_ButtonSettingsScoringMachine, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ButtonOTARemote, ui_event_ButtonOTARemote, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_ImgButton17, ui_event_ImgButton17, LV_EVENT_ALL, NULL);
 
 }
 
@@ -172,5 +191,6 @@ void ui_OTA_Screen_screen_destroy(void)
     ui_ButtonOTARemote = NULL;
     ui_Label32 = NULL;
     ui_Label35 = NULL;
+    ui_ImgButton17 = NULL;
 
 }
